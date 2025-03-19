@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Universidad</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script defer src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>UPTEX</h2>
+        <ul class="menu">
+            
+            <li class="menu-item">
+                <a href="#">Datos Académicos</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#">Rendimiento Estudiantil</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Calificaciones</a></li>
+                            <li><a href="#">Aprobados</a></li>
+                            <li><a href="#">Reprobados</a></li>
+                            <li><a href="#">Promedios</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#">Eficiencia Terminal</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Tiempo de termino de estudios</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#">Deserción y Retención</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Motivos de abandono</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#">Evaluaciones Docentes</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Opiniones de estudiantes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="#">Datos Administrativos</a>
+                <ul class="submenu">
+                    
+
+                    <li class="submenu-item">
+                        <a href="#">inscripciones y matriculas</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">cantidad de estudiantes</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="submenu-item">
+                        <a href="#">presupuestos y gastos</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Infraestructura</a></li>
+                            <li><a href="#">Viajes</a></li>
+                            <li><a href="#">Becas</a></li>
+                            
+                        </ul>
+                    </li>
+                    
+
+                    <li class="submenu-item">
+                        <a href="#">Distribucion de grupos</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">por carrera</a></li>
+                            <li><a href="#">Alumnos por grupo</a></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+
+
+            <li class="menu-item">
+                <a href="#">Vida Universitaria</a>
+                <ul class="submenu">
+                    
+
+                    <li class="submenu-item">
+                        <a href="#">Bienestar Estudiantil</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Encuesta de salud mental</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="submenu-item">
+                        <a href="#">Edad y residencia</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Distribucion de estudiantes</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu-item">
+                        <a href="#">Situacion laboral</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#">Estudiantes que trabajan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu-item">
+                        <a href="#">Discapacidad</a>    
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <a href="#">Administrador</a>
+            <ul class="submenu">
+                
+
+                <li class="submenu-item">
+{#            <li><a class="nav-link" href="{% url 'login'%}">login</a></li>#}
+                </li>
+                
+                
+
+    </div>
+
+
+    <div class="content">
+        <h1>Bienvenido al Dashboard de la UPTEX</h1>
+        <p>Selecciona una opción del menú.</p>
+    </div>
+
+</body>
+</html>
