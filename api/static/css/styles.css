@@ -1,65 +1,104 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
+* {
     margin: 0;
-    background-color: #f4f4f4;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
 }
 
 .sidebar {
     width: 250px;
-    background-color: #00274D;
+    height: 100vh; /* Ajusta la altura al 100% de la pantalla */
+    background: #2c3e50;
     color: white;
-    height: 100vh;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Evita que se salga el contenido */
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
+.menu-container {
+    flex: 1;
+    overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+    max-height: calc(100vh - 50px); /* Asegura que no se pase del alto total */
 }
 
 .menu {
     list-style: none;
-    padding: 0;
+    padding: 10px;
 }
 
 .menu-item > a {
-    text-decoration: none;
-    color: white;
     display: block;
+    color: white;
     padding: 10px;
-    cursor: pointer;
+    text-decoration: none;
+    background: #34495e;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
 }
 
 .menu-item > a:hover {
-    background-color: #004080;
+    background: #1abc9c;
 }
 
+/* Títulos principales más llamativos */
+.menu-item.titulo > a {
+    background: #e67e22; /* Naranja llamativo */
+    color: #ffffff;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.menu-item.titulo > a:hover {
+    background: #d35400; /* Un tono más oscuro al pasar el mouse */
+}
+
+/* Submenús */
 .submenu {
     list-style: none;
-    padding-left: 20px;
-    display: none;
+    padding-left: 15px;
+    display: none; /* Oculta submenús por defecto */
 }
 
-.submenu-item > a {
-    text-decoration: none;
-    color: #ddd;
-    display: block;
+.submenu .submenu-item > a {
+    background: #16a085;
     padding: 8px;
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
-.sub-submenu {
-    list-style: none;
-    padding-left: 20px;
-    display: none;
+.submenu .submenu-item > a:hover {
+    background: #1abc9c;
 }
 
-.sub-submenu a {
-    color: #ccc;
+/* Estilo para enlaces que antes eran morados */
+.submenu .submenu-item > a {
+    color: #ecf0f1; /* Un tono más claro para mejor visibilidad */
+    font-weight: normal;
 }
 
-.content {
-    flex: 1;
-    padding: 20px;
+/* Ajuste para el botón de Login */
+.nav-link {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    background: #34495e;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.nav-link:hover {
+    background: #1abc9c;
 }

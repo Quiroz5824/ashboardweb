@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from api.home.home_views import home_view
 from api.login.login_views import login_view
+from api.Administrador.administrador_views import administrador_view
+
 urlpatterns = [
     
     path('', home_view, name = "index"),
+    path('login/', login_view, name = "login"),
+    path('administrador/', administrador_view, name = "administrador"),
     
 ]
