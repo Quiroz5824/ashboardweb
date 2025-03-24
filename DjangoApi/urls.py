@@ -16,14 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.home.home_views import home_view
-from api.login.login_views import login_view
-from api.Administrador.administrador_views import administrador_view
+from api.home.home_views import home_view, home_calificaciones, home_aprobados, home_reprobados, home_promedios, home_mapa
+from api.login.login_views import login_view, logout_view
+from api.Administrador.administrador_views import administrador_view, subir_calificaciones, gestionar_usuarios
 
 urlpatterns = [
-    
-    path('', home_view, name = "index"),
-    path('login/', login_view, name = "login"),
-    path('administrador/', administrador_view, name = "administrador"),
-    
+    path('', home_view, name='index'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+
+    # Vistas académicas
+    path('calificaciones/', home_calificaciones, name='calificaciones'),
+    path('aprobados/', home_aprobados, name='aprobados'),
+    path('reprobados/', home_reprobados, name='reprobados'),  # <-- Agregado aquí ✅
+    path('promedios/', home_promedios, name='promedios'),
+    path('mapa/', home_mapa, name='mapa'),  # <-- Agregado aquí ✅
+
+
+
+    # Vistas administrativas
+    path('administrador/', administrador_view, name='administrador'),
+    path('administrador/subir-calificaciones/', subir_calificaciones, name='subir_calificaciones'),
+    path('administrador/gestionar-usuarios/', gestionar_usuarios, name='gestionar_usuarios'),
 ]
+

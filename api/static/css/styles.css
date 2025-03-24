@@ -1,3 +1,4 @@
+/* ==== RESET GENERAL ==== */
 * {
     margin: 0;
     padding: 0;
@@ -6,25 +7,38 @@
 
 body {
     display: flex;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif; /* Fuente más moderna */
+    background-color: #ecf0f1;
 }
 
+/* ==== SIDEBAR ==== */
 .sidebar {
     width: 250px;
-    height: 100vh; /* Ajusta la altura al 100% de la pantalla */
+    height: 100vh;
     background: #2c3e50;
     color: white;
-    overflow: hidden; /* Evita que se salga el contenido */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
+/* ==== SCROLLBAR ==== */
 .menu-container {
     flex: 1;
-    overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
-    max-height: calc(100vh - 50px); /* Asegura que no se pase del alto total */
+    overflow-y: auto;
+    max-height: calc(100vh - 50px);
 }
 
+.menu-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.menu-container::-webkit-scrollbar-thumb {
+    background-color: #1abc9c;
+    border-radius: 10px;
+}
+
+/* ==== MENÚ PRINCIPAL ==== */
 .menu {
     list-style: none;
     padding: 10px;
@@ -33,72 +47,156 @@ body {
 .menu-item > a {
     display: block;
     color: white;
-    padding: 10px;
+    padding: 12px;
     text-decoration: none;
     background: #34495e;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s ease;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .menu-item > a:hover {
     background: #1abc9c;
+    transform: translateX(5px);
 }
 
-/* Títulos principales más llamativos */
-.menu-item.titulo > a {
-    background: #e67e22; /* Naranja llamativo */
-    color: #ffffff;
-    font-size: 18px;
-    text-transform: uppercase;
-    text-align: center;
+/* ==== ACTIVO (Cuando el submenú está abierto) ==== */
+.menu-item.active > a {
+    background: #1abc9c;
+    transform: translateX(0);
 }
 
-.menu-item.titulo > a:hover {
-    background: #d35400; /* Un tono más oscuro al pasar el mouse */
-}
-
-/* Submenús */
+/* ==== SUBMENÚ ==== */
 .submenu {
     list-style: none;
-    padding-left: 15px;
-    display: none; /* Oculta submenús por defecto */
+    padding-left: 20px;
+    display: none;
 }
 
-.submenu .submenu-item > a {
-    background: #16a085;
-    padding: 8px;
+.submenu-item > a {
+    background: #24ae34;
+    padding: 10px;
     display: block;
     color: white;
     text-decoration: none;
-    margin-top: 5px;
+    margin-top: 6px;
     border-radius: 5px;
     font-size: 14px;
+    transition: background 0.3s ease;
 }
 
-.submenu .submenu-item > a:hover {
+.submenu-item > a:hover {
+    background: #106f25;
+    transform: translateX(4px);
+}
+
+/* ==== ACTIVO (Cuando el sub-submenú está abierto) ==== */
+.submenu-item.active > a {
     background: #1abc9c;
 }
 
-/* Estilo para enlaces que antes eran morados */
-.submenu .submenu-item > a {
-    color: #ecf0f1; /* Un tono más claro para mejor visibilidad */
-    font-weight: normal;
+/* ==== SUB-SUBMENÚ ==== */
+.sub-submenu {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+    transition: max-height 0.4s ease;
 }
 
-/* Ajuste para el botón de Login */
+.sub-submenu li {
+    margin-top: 5px;
+}
+
+/* ==== ESTILO PARA BOTONES DEL SUBMENÚ ==== */
+.sub-submenu li button {
+    background-color: #c6ca58;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%; 
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sub-submenu li button:hover {
+    background-color: #edea21;
+    transform: translateX(4px);
+}
+
+.sub-submenu li button:focus {
+    outline: none;
+}
+
+/* ==== ELIMINAR ESTILO DE HIPERVÍNCULO ==== */
+.sub-submenu li a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+
+.sub-submenu li a:hover {
+    background-color: #1abc9c;
+    transform: translateX(4px);
+}
+
+/* ==== REMOVER ESTILO AZUL/MORADO ENLACE VISITADO ==== */
+a, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ==== OPCIONES DE ADMINISTRADOR ==== */
+.menu-item.admin > a {
+    background-color: #e74c3c;
+}
+
+.menu-item.admin > a:hover {
+    background-color: #c0392b;
+}
+
+/* ==== BOTÓN LOGIN Y LOGOUT ==== */
 .nav-link {
     display: block;
-    padding: 10px;
+    padding: 12px;
     color: white;
     text-decoration: none;
     background: #34495e;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     border-radius: 5px;
     text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease;
 }
 
 .nav-link:hover {
     background: #1abc9c;
+}
+
+/* ==== CONTENIDO PRINCIPAL ==== */
+.content {
+    padding: 30px;
+    width: calc(100% - 250px);
+    background-color: #ecf0f1;
+}
+
+/* ==== ENCABEZADO DEL CONTENIDO ==== */
+h1 {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #7f8c8d;
+    line-height: 1.6;
 }

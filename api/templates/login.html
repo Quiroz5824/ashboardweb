@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'imagenes/uptex.png' %}">
+
     <title>Login</title>
     <link rel="shortcut icon" href="{% static 'images/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
@@ -66,9 +68,12 @@
                             </div>
                         </div>
 
-                        <div class="text-center text-lg-start mt-4 pt-2">
+                        <div class="text-center text-lg-start mt-4 pt-2 d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                            <a href="{% url 'index' %}" class="btn btn-secondary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Regresar</a>
                         </div>
+                        
+                        
                     </form>
                 </div>
             </div>

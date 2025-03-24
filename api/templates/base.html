@@ -1,0 +1,189 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'imagenes/uptex.png' %}">
+    <title>{% block title %}Dashboard Universidad{% endblock %}</title>
+    
+    <!-- ✅ Hoja de estilos principal -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- ✅ Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- ✅ Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- ✅ Script global -->
+    <script defer src="{% static 'js/script.js' %}"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ====== Sidebar ====== -->
+<div class="sidebar">
+    <h2>UPTEX</h2>
+    <div class="menu-container">
+        <ul class="menu">
+            <!-- ✅ Datos Académicos -->
+            <li class="menu-item">
+                <a href="#" data-menu="datos-academicos">Datos Académicos</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="rendimiento">Rendimiento Estudiantil</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='{% url 'calificaciones' %}'">Calificaciones</button>
+                            </li>
+                            <li>
+                                <button onclick="window.location.href='{% url 'aprobados' %}'">Aprobados</button>
+                            </li>
+                            <li>
+                                <button onclick="window.location.href='{% url 'reprobados' %}'">Reprobados</button>
+                            </li>
+                            <li>
+                                <button onclick="window.location.href='{% url 'promedios' %}'">Promedios</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="eficiencia">Eficiencia Terminal</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Tiempo de término de estudios</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="desercion">Deserción y Retención</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Motivos de abandono</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="evaluaciones">Evaluaciones Docentes</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Opiniones de estudiantes</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- ✅ Datos Administrativos -->
+            <li class="menu-item">
+                <a href="#" data-menu="datos-administrativos">Datos Administrativos</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="inscripciones">Inscripciones y Matrículas</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Cantidad de estudiantes</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="presupuesto">Presupuestos y Gastos</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Infraestructura</button>
+                            </li>
+                            <li>
+                                <button onclick="window.location.href='#'">Viajes</button>
+                            </li>
+                            <li>
+                                <button onclick="window.location.href='#'">Becas</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- ✅ Vida Universitaria -->
+            <li class="menu-item">
+                <a href="#" data-menu="vida-universitaria">Vida Universitaria</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="bienestar">Bienestar Estudiantil</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Encuesta de salud mental</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="residencia">Edad y Residencia</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Distribución de estudiantes</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- ✅ Datos Geoespaciales -->
+            <li class="menu-item">
+                <a href="#" data-menu="datos-geoespaciales">Datos Geoespaciales</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="zonas">Zonas de procedencia</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='{% url 'mapa' %}'">Estado, ciudad</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" data-submenu="movilidad">Movilidad</a>
+                        <ul class="sub-submenu">
+                            <li>
+                                <button onclick="window.location.href='#'">Rutas</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- ✅ Administrador -->
+            {% if user.is_authenticated and user.is_staff %}
+            <li class="menu-item">
+                <a href="#" data-menu="admin">Administrador</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <button onclick="window.location.href='{% url 'subir_calificaciones' %}'">Subir Calificaciones</button>
+                        <button onclick="window.location.href='{% url 'gestionar_usuarios' %}'">Gestionar Usuarios</button>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
+
+            <!-- ✅ Login y Logout -->
+            <li class="menu-item">
+                {% if user.is_authenticated %}
+                    <button onclick="window.location.href='{% url 'logout' %}'" class="nav-link">Cerrar sesión</button>
+                {% else %}
+                    <button onclick="window.location.href='{% url 'login' %}'" class="nav-link">Iniciar sesión</button>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- ====== Contenido ====== -->
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
