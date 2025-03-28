@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir Calificaciones</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="content">
+        <h1>Subir Calificaciones</h1>
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            
+            <label for="archivo_excel" class="upload-label">
+                Seleccionar archivo Excel
+                <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx, .xls" required hidden>
+            </label>
+        
+            <button type="submit" class="btn-admin">Subir archivo</button>
+        </form>
+    </div>
+</body>
+</html>

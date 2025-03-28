@@ -123,3 +123,16 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# DjangoApi/settings.py
+
+# Redirige a /login/ cuando se requiere autenticación
+LOGIN_URL = '/login/'
+
+# Redirigir automáticamente tras iniciar sesión
+LOGIN_REDIRECT_URL = '/administrador/'
+
+# Al final del archivo DjangoApi/settings.py
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
