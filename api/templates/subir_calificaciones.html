@@ -1,25 +1,41 @@
+{% extends 'base_admin.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Subir Calificaciones</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <div class="content">
-        <h1>Subir Calificaciones</h1>
-        <form method="POST" enctype="multipart/form-data" class="upload-form">
-            {% csrf_token %}
-            
-            <label for="archivo_excel" class="upload-label">
-                Seleccionar archivo Excel
-                <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx, .xls" required hidden>
-            </label>
-        
-            <button type="submit" class="btn-admin">Subir archivo</button>
-        </form>
-    </div>
-</body>
-</html>
+{% block title %}Subir Calificaciones{% endblock %}
+
+{% block content %}
+<div class="admin-panel">
+    <h1>Subir Calificaciones</h1>
+
+    <!-- ✅ Formulario para generar plantilla -->
+    <form method="POST" action="{% url 'generar_plantilla_csv' %}" class="form-box">
+        {% csrf_token %}
+        <h3>Generar plantilla CSV:</h3>
+        <p>Selecciona los campos que deseas incluir:</p>
+
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="campos" value="matricula"> Matrícula</label>
+            <label><input type="checkbox" name="campos" value="nombre"> Nombre</label>
+            <label><input type="checkbox" name="campos" value="apellido_paterno"> Apellido Paterno</label>
+            <label><input type="checkbox" name="campos" value="apellido_materno"> Apellido Materno</label>
+            <label><input type="checkbox" name="campos" value="genero"> Género</label>
+            <label><input type="checkbox" name="campos" value="preparatoria"> Preparatoria</label>
+            <label><input type="checkbox" name="campos" value="carrera"> Carrera</label>
+            <label><input type="checkbox" name="campos" value="materia"> Materia</label>
+            <label><input type="checkbox" name="campos" value="periodo"> Periodo</label>
+            <label><input type="checkbox" name="campos" value="calificacion"> Calificación</label>
+            <label><input type="checkbox" name="campos" value="fecha"> Fecha</label>
+        </div>
+
+        <button type="submit" class="btn-admin">Descargar Plantilla</button>
+    </form>
+
+    <!-- ✅ Formulario para subir archivo Excel -->
+    <form method="POST" enctype="multipart/form-data" class="form-box" style="margin-top: 30px;">
+        {% csrf_token %}
+        <h3>Subir archivo Excel:</h3>
+        <input type="file" name="archivo_excel" accept=".xlsx, .xls" required class="input-file">
+        <button type="submit" class="btn-admin">Subir archivo</button>
+    </form>
+</div>
+{% endblock %}

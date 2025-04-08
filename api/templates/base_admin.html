@@ -14,10 +14,9 @@
 
     <div class="sidebar">
         <div class="logo-container" style="text-align: center; padding: 15px;">
-            <img src="{% static 'imagenes/uptex_logo.png' %}" alt="UPTEX" style="max-width: 90px; height: auto; ">
+            <img src="{% static 'imagenes/uptex_logo.png' %}" alt="UPTEX" style="max-width: 90px; height: auto;">
         </div>
 
-        
         <div class="menu-container">
             <ul class="menu">
                 <li class="menu-item">
@@ -26,7 +25,7 @@
                         <li class="submenu-item">
                             <a href="#">Rendimiento Estudiantil</a>
                             <ul class="sub-submenu">
-                                <li><a href="#">Calificaciones</a></li>
+                                <li><button onclick="window.location.href='{% url 'subir_calificaciones' %}'"><i class="fas fa-file-alt"></i> Subir Calificaciones</button></li>
                                 <li><a href="#">Aprobados</a></li>
                                 <li><a href="#">Reprobados</a></li>
                                 <li><a href="#">Promedios</a></li>
@@ -129,7 +128,7 @@
                     <a href="#">Administrador</a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a class="nav-link" href="{% url 'login' %}">Logout</a>
+                            <button onclick="window.location.href='{% url 'logout' %}'"><i class="fas fa-sign-in-alt"></i> Logout</button>
                         </li>
                     </ul>
                 </li>
@@ -138,8 +137,10 @@
     </div>
 
     <div class="content">
+        {% block content %}
         <h1>Bienvenido Administrador</h1>
         <p>Selecciona una opción del menú.</p>
+        {% endblock %}
     </div>
 
 </body>
