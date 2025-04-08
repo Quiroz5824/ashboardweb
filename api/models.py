@@ -15,10 +15,6 @@ class Usuarios(models.Model):
         verbose_name_plural = "Usuarios"
         ordering = ['usuario_id']
 
-
-
-
-
 # Carreras universitarias
 class Carrera(models.Model):
     id = models.AutoField(primary_key=True)
@@ -82,9 +78,6 @@ class Estudiante(models.Model):
     apellido_materno = models.CharField(max_length=100)
     fecha_nacimiento = models.DateField()
     genero = models.CharField(max_length=10, choices=[('Masculino', 'Masculino'), ('Femenino', 'Femenino'), ('Otro', 'Otro')])
-    residencia = models.CharField(max_length=255)
-    trabaja = models.BooleanField(default=False)
-    trabajo = models.CharField(max_length=255, null=True, blank=True)
     preparatoria = models.ForeignKey(Preparatoria, on_delete=models.SET_NULL, null=True)
     carrera = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True)
 
@@ -96,27 +89,21 @@ class Estudiante(models.Model):
         verbose_name_plural = "Estudiantes"
         ordering = ['id']
 
-# Discapacidades del estudiante
-class EstudianteDiscapacidad(models.Model):
-    id = models.AutoField(primary_key=True)
+
+class CreditosEstudiantePeriodo(models.Model):
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    tipo_discapacidad = models.CharField(max_length=255)
+    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
+    creditos_aprobados = models.IntegerField()
 
     class Meta:
-        verbose_name = "Discapacidad del Estudiante"
-        verbose_name_plural = "Discapacidades de Estudiantes"
-        ordering = ['estudiante']
+        unique_together = ('estudiante', 'periodo')
+        verbose_name = "Créditos por Estudiante y Periodo"
+        verbose_name_plural = "Créditos por Estudiante y Periodo"
+        ordering = ['estudiante', 'periodo']
 
-# Información laboral del estudiante
-class EstudianteTrabajo(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    tipo_trabajo = models.CharField(max_length=255)
+    def __str__(self):
+        return f"{self.estudiante} - {self.periodo}: {self.creditos_aprobados} créditos"
 
-    class Meta:
-        verbose_name = "Trabajo del Estudiante"
-        verbose_name_plural = "Trabajos de Estudiantes"
-        ordering = ['estudiante']
 
 # Egresados
 class Egresado(models.Model):
@@ -129,53 +116,14 @@ class Egresado(models.Model):
         verbose_name_plural = "Egresados"
         ordering = ['fecha_egreso']
 
-# Tiempo en finalizar estudios
-class TiempoFinalizacion(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    fecha_ingreso = models.DateField()
-    fecha_egreso = models.DateField()
-    duracion_carrera = models.IntegerField(help_text="Duración en meses")
 
-    class Meta:
-        verbose_name = "Tiempo de Finalización"
-        verbose_name_plural = "Tiempos de Finalización"
-        ordering = ['duracion_carrera']
-
-# Motivos de abandono
-class MotivoAbandono(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    fecha_abandono = models.DateField()
-    motivo = models.CharField(max_length=255)
-    comentarios = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name = "Motivo de Abandono"
-        verbose_name_plural = "Motivos de Abandono"
-        ordering = ['fecha_abandono']
-# Docentes
-class Docente(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=255)
-    especialidad = models.CharField(max_length=255)
-    usuarios = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
-    materias = models.ManyToManyField('Materia', through='DocenteMateria')
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido}"
-
-    class Meta:
-        verbose_name = "Docente"
-        verbose_name_plural = "Docentes"
-        ordering = ['id']
 
 # Materias
 class Materia(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=255)
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
     cuatrimestre = models.IntegerField()
 
     def __str__(self):
@@ -186,15 +134,6 @@ class Materia(models.Model):
         verbose_name_plural = "Materias"
         ordering = ['cuatrimestre']
 
-# Relación Docente-Materia
-class DocenteMateria(models.Model):
-    docente = models.ForeignKey(Docente, on_delete=models.CASCADE)
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = "Docente-Materia"
-        verbose_name_plural = "Docentes-Materias"
-        unique_together = ('docente', 'materia')
 
 # Grupos académicos
 class Grupo(models.Model):
@@ -240,61 +179,6 @@ class EvaluacionResumen(models.Model):
         verbose_name = "Evaluación Resumen"
         verbose_name_plural = "Evaluaciones Resumen"
         ordering = ['estudiante', 'periodo']
-
-# Evaluación docente
-class EvaluacionDocente(models.Model):
-    id = models.AutoField(primary_key=True)
-    docente = models.ForeignKey(Docente, on_delete=models.CASCADE)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    fecha = models.DateField()
-    puntuacion = models.DecimalField(max_digits=4, decimal_places=2)
-    comentario = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name = "Evaluación Docente"
-        verbose_name_plural = "Evaluaciones Docentes"
-        ordering = ['fecha']
-
-# Distribución por edad
-class DistribucionEdad(models.Model):
-    id = models.AutoField(primary_key=True)
-    edad = models.IntegerField()
-    cantidad = models.IntegerField()
-    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = "Distribución por Edad"
-        verbose_name_plural = "Distribuciones por Edad"
-        ordering = ['edad', 'carrera']
-        unique_together = ('edad', 'carrera')
-
-# Distribución por residencia
-class DistribucionResidencia(models.Model):
-    id = models.AutoField(primary_key=True)
-    residencia = models.CharField(max_length=255)
-    coordenadas = models.CharField(max_length=100, null=True, blank=True)
-    cantidad = models.IntegerField()
-
-    class Meta:
-        verbose_name = "Distribución por Residencia"
-        verbose_name_plural = "Distribuciones por Residencia"
-        ordering = ['residencia']
-
-# Distribución por edad y carrera
-class DistribucionEdadCarrera(models.Model):
-    id = models.AutoField(primary_key=True)
-    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
-    edad = models.IntegerField()
-    cantidad = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.carrera.nombre} - {self.edad} años: {self.cantidad} estudiantes"
-
-    class Meta:
-        verbose_name = "Distribución Edad por Carrera"
-        verbose_name_plural = "Distribuciones Edad por Carrera"
-        ordering = ['carrera', 'edad']
-        unique_together = ('carrera', 'edad')
 
 # Distribución por cuatrimestre y carrera
 class DistribucionEstudiantesCuatrimestre(models.Model):
