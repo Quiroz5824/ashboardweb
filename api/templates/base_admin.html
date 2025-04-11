@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,139 +8,142 @@
     <title>Dashboard Universidad</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script defer src="{% static 'js/script.js' %}"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo-container" style="text-align: center; padding: 15px;">
-            <img src="{% static 'imagenes/uptex_logo.png' %}" alt="UPTEX" style="max-width: 90px; height: auto;">
-        </div>
-
-        <div class="menu-container">
-            <ul class="menu">
-                <li class="menu-item">
-                    <a href="#">Datos Académicos</a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="#">Rendimiento Estudiantil</a>
-                            <ul class="sub-submenu">
-                                <li><button onclick="window.location.href='{% url 'subir_calificaciones' %}'"><i class="fas fa-file-alt"></i> Subir Calificaciones</button></li>
-                                <li><a href="#">Aprobados</a></li>
-                                <li><a href="#">Reprobados</a></li>
-                                <li><a href="#">Promedios</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Eficiencia Terminal</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Tiempo de término de estudios</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Deserción y Retención</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Motivos de abandono</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Evaluaciones Docentes</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Opiniones de estudiantes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item">
-                    <a href="#">Datos Administrativos</a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="#">Inscripciones y Matrículas</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Cantidad de estudiantes</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Presupuestos y Gastos</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Infraestructura</a></li>
-                                <li><a href="#">Viajes</a></li>
-                                <li><a href="#">Becas</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Distribución de Grupos</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Por carrera</a></li>
-                                <li><a href="#">Alumnos por grupo</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item">
-                    <a href="#">Vida Universitaria</a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="#">Bienestar Estudiantil</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Encuesta de salud mental</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Edad y Residencia</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Distribución de estudiantes</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Situación Laboral</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Estudiantes que trabajan</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Discapacidad</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item">
-                    <a href="#">Datos Geoespaciales</a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="#">Zonas provienen </a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Estado, ciudad</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#">Movilidad</a>
-                            <ul class="sub-submenu">
-                                <li><a href="#">Rutas</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item">
-                    <a href="#">Administrador</a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <button onclick="window.location.href='{% url 'logout' %}'"><i class="fas fa-sign-in-alt"></i> Logout</button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+<div class="sidebar">
+    <div class="logo-container" style="text-align: center; padding: 15px;">
+        <img src="{% static 'imagenes/uptex_logo.png' %}" alt="UPTEX" style="max-width: 90px; height: auto;">
     </div>
 
-    <div class="content">
-        {% block content %}
-        <h1>Bienvenido Administrador</h1>
-        <p>Selecciona una opción del menú.</p>
-        {% endblock %}
+    <div class="menu-container">
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-graduation-cap"></i> Datos Académicos</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-chart-line"></i> Alumnos</a>
+                        <ul class="sub-submenu">
+                            <li><button onclick="window.location.href='{% url 'subir_calificaciones' %}'"><i class="fas fa-file-upload"></i> Subir Calificaciones</button></li>
+                            <li><a href="#"><i class="fas fa-thumbs-up"></i> Aprobados</a></li>
+                            <li><a href="#"><i class="fas fa-thumbs-down"></i> Reprobados</a></li>
+                            <li><a href="#"><i class="fas fa-percentage"></i> Egresados</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-stopwatch"></i> Grupos</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-clock"></i> Promedio General</a></li>
+                            <li><a href="#"><i class="fas fa-clock"></i> Reprobados</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-user-times"></i> Asignaturas</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-question-circle"></i> Más Reprobadas</a></li>
+                            <li><a href="#"><i class="fas fa-question-circle"></i> Por Grupo</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-chalkboard-teacher"></i> Preparatoria Cursada</a>
+                        <ul class="sub-submenu">
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-building"></i> Períodos</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-user-plus"></i> Enero - Abril</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-users"></i> Cantidad de estudiantes</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-coins"></i> Mayo - Agosto</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-tools"></i> Infraestructura</a></li>
+                            <li><a href="#"><i class="fas fa-bus-alt"></i> Viajes</a></li>
+                            <li><a href="#"><i class="fas fa-hand-holding-usd"></i> Becas</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-layer-group"></i>Septiembre - Diciembre</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-sitemap"></i> Por carrera</a></li>
+                            <li><a href="#"><i class="fas fa-users-cog"></i> Alumnos por grupo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-university"></i> Vida Universitaria</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-heartbeat"></i> Bienestar Estudiantil</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-brain"></i> Encuesta de salud mental</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-map-marked-alt"></i> Edad y Residencia</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-map-pin"></i> Distribución de estudiantes</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-briefcase"></i> Situación Laboral</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-user-tie"></i> Estudiantes que trabajan</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-wheelchair"></i> Discapacidad</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-map"></i> Datos Geoespaciales</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-map-pin"></i> Zonas provienen </a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-city"></i> Estado, ciudad</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#"><i class="fas fa-route"></i> Movilidad</a>
+                        <ul class="sub-submenu">
+                            <li><a href="#"><i class="fas fa-road"></i> Rutas</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="#"><i class="fas fa-user-shield"></i> Administrador</a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <button onclick="window.location.href='{% url 'logout' %}'"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
+</div>
+
+<div class="content">
+    {% block content %}
+    <h1>Bienvenido Administrador</h1>
+    <p>¿Qué desea actualizar?</p>
+    {% endblock %}
+</div>
 
 </body>
 </html>
