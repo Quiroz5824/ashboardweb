@@ -301,3 +301,7 @@ p {
     background-color: #992d22;
 }
 
+.menu-container {
+    scrollbar-color: #1abc9c transparent;
+    scrollbar-width: thin;
+}
