@@ -1,11 +1,11 @@
 {% extends 'base_admin.html' %}
 {% load static %}
 
-{% block title %}reprobados{% endblock %}
+{% block title %}egresados{% endblock %}
 
 {% block content %}
 <div class="admin-panel">
-    <h1>Reprobados</h1>
+    <h1>Egresados</h1>
 
     <!-- Formulario para generar plantilla CSV -->
     <div class="form-box">
@@ -31,8 +31,8 @@
                 </label>
 
                 <label style="display: flex; align-items: center; gap: 5px; font-weight: 500;">
-                    <input type="checkbox" name="campos" value="grupo">
-                    Grupo
+                    <input type="checkbox" name="campos" value="nombre">
+                    Nombre
                 </label>
 
                 <label style="display: flex; align-items: center; gap: 5px; font-weight: 500;">
@@ -50,6 +50,11 @@
                 <label style="display: flex; align-items: center; gap: 5px; font-weight: 500;">
                     <input type="checkbox" name="campos" value="periodo">
                     Periodo
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 5px; font-weight: 500;">
+                    <input type="checkbox" name="campos" value="creditos">
+                    Creditos
                 </label>
 
 
@@ -85,4 +90,5 @@
     </div>
 </div>
 {% endblock %}
+
 

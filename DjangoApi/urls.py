@@ -3,6 +3,8 @@ from django.urls import path
 from api.home.home_views import home_view, home_calificaciones, home_aprobados, home_reprobados, home_promedios, home_mapa
 from api.login.login_views import login_view, logout_view
 from api.Administrador.administrador_views import administrador_view, subir_calificaciones, gestionar_usuarios, generar_plantilla_csv
+from api.views import egresados_view
+
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,6 +23,7 @@ urlpatterns = [
     # Vistas de administrador
     path('administrador/', administrador_view, name='administrador'),
     path('administrador/subir-calificaciones/', subir_calificaciones, name='subir_calificaciones'),
+    path('administrador/egresados/', egresados_view, name='egresados'),
     path('administrador/gestionar-usuarios/', gestionar_usuarios, name='gestionar_usuarios'),
     path('administrador/generar-plantilla/', generar_plantilla_csv, name='generar_plantilla_csv'),  # 🟢 Esta línea es la que te faltaba
 ]

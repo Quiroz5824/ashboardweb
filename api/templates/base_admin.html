@@ -27,9 +27,9 @@
                         <a href="#"><i class="fas fa-chart-line"></i> Alumnos</a>
                         <ul class="sub-submenu">
                             <li><button onclick="window.location.href='{% url 'subir_calificaciones' %}'"><i class="fas fa-file-upload"></i> Subir Calificaciones</button></li>
-                            <li><a href="#"><i class="fas fa-thumbs-up"></i> Aprobados</a></li>
-                            <li><a href="#"><i class="fas fa-thumbs-down"></i> Reprobados</a></li>
-                            <li><a href="#"><i class="fas fa-percentage"></i> Egresados</a></li>
+                            <li><button onclick="window.location.href='{% url 'aprobados' %}'"><i class="fas fa-file-upload"></i> Aprobados</button></li>
+                            <li><button onclick="window.location.href='{% url 'reprobados' %}'"><i class="fas fa-file-upload"></i> Reprobados</button></li>
+                            <li><button onclick="window.location.href='{% url 'egresados' %}'"><i class="fas fa-file-upload"></i> Egresados</button></li>
                         </ul>
                     </li>
                     <li class="submenu-item">
