@@ -1,198 +1,229 @@
 from django.db import models
 
-
 class Usuarios(models.Model):
-    usuario_id = models.AutoField(primary_key=True)
-    matricula = models.CharField(max_length=20, unique=True)
+    matricula = models.CharField(max_length=20, primary_key=True)
+    correo = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
-    nombre = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.matricula} - {self.nombre}"
+        return f"{self.matricula} - {self.correo}"
 
     class Meta:
-        verbose_name = "Usuario"
-        verbose_name_plural = "Usuarios"
-        ordering = ['usuario_id']
+        verbose_name = "Administrador"
+        verbose_name_plural = "Administradores"
 
-# Carreras universitarias
-class Carrera(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=255)
+
+class CicloEscolar(models.Model):
+    anio = models.IntegerField(primary_key=True)
 
     def __str__(self):
-        return self.nombre
+        return str(self.anio)
 
-    class Meta:
-        verbose_name = "Carrera"
-        verbose_name_plural = "Carreras"
-        ordering = ['id']
 
-# Preparatorias de origen
-class Preparatoria(models.Model):
-    TIPO_CHOICES = [
-        ('Bachillerato', 'Bachillerato'),
-        ('Tecnica', 'Técnica'),
-        ('Oficial', 'Oficial'),
-        ('Tecnologico', 'Tecnológico'),
-    ]
-
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-
-    def __str__(self):
-        return self.nombre
-
-    class Meta:
-        verbose_name = "Preparatoria"
-        verbose_name_plural = "Preparatorias"
-        ordering = ['id']
-
-# Periodos escolares
 class Periodo(models.Model):
-    TIPO_CHOICES = [
-        ('Cuatrimestre', 'Cuatrimestre'),
-        ('Anual', 'Anual'),
-    ]
-
-    id = models.AutoField(primary_key=True)
-    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    anio = models.IntegerField()
-    numero = models.IntegerField(help_text="Número de cuatrimestre o año (1, 2, 3, ...)")
-
-    def __str__(self):
-        return f"{self.tipo} {self.numero} - {self.anio}"
-
-    class Meta:
-        verbose_name = "Periodo"
-        verbose_name_plural = "Periodos"
-        ordering = ['anio', 'numero']
-        unique_together = ('tipo', 'anio', 'numero')
-
-# Estudiantes
-class Estudiante(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    apellido_paterno = models.CharField(max_length=100)
-    apellido_materno = models.CharField(max_length=100)
-    fecha_nacimiento = models.DateField()
-    genero = models.CharField(max_length=10, choices=[('Masculino', 'Masculino'), ('Femenino', 'Femenino'), ('Otro', 'Otro')])
-    preparatoria = models.ForeignKey(Preparatoria, on_delete=models.SET_NULL, null=True)
-    carrera = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido_paterno}"
-
-    class Meta:
-        verbose_name = "Estudiante"
-        verbose_name_plural = "Estudiantes"
-        ordering = ['id']
-
-
-class CreditosEstudiantePeriodo(models.Model):
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    creditos_aprobados = models.IntegerField()
-
-    class Meta:
-        unique_together = ('estudiante', 'periodo')
-        verbose_name = "Créditos por Estudiante y Periodo"
-        verbose_name_plural = "Créditos por Estudiante y Periodo"
-        ordering = ['estudiante', 'periodo']
-
-    def __str__(self):
-        return f"{self.estudiante} - {self.periodo}: {self.creditos_aprobados} créditos"
-
-
-# Egresados
-class Egresado(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    fecha_egreso = models.DateField()
-
-    class Meta:
-        verbose_name = "Egresado"
-        verbose_name_plural = "Egresados"
-        ordering = ['fecha_egreso']
-
-
-
-# Materias
-class Materia(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=255)
-    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    cuatrimestre = models.IntegerField()
+    clave = models.CharField(max_length=10, primary_key=True)  # Ej: 'E-A'
+    nombre = models.CharField(max_length=50)  # Ej: 'Enero - Abril'
 
     def __str__(self):
         return self.nombre
 
-    class Meta:
-        verbose_name = "Materia"
-        verbose_name_plural = "Materias"
-        ordering = ['cuatrimestre']
 
-
-# Grupos académicos
-class Grupo(models.Model):
+class CicloPeriodo(models.Model):
     id = models.AutoField(primary_key=True)
-    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    ciclo = models.ForeignKey(CicloEscolar, on_delete=models.CASCADE)
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    cuatrimestre = models.IntegerField()
-    turno = models.CharField(max_length=20, choices=[('Matutino', 'Matutino'), ('Vespertino', 'Vespertino')])
 
     class Meta:
-        verbose_name = "Grupo"
-        verbose_name_plural = "Grupos"
-        ordering = ['carrera', 'cuatrimestre']
+        unique_together = ('ciclo', 'periodo')
 
-# Evaluaciones individuales
-class Evaluacion(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    calificacion = models.DecimalField(max_digits=4, decimal_places=2)
-    fecha = models.DateField()
+    def __str__(self):
+        return f"{self.ciclo.anio} - {self.periodo.clave}"
 
-    class Meta:
-        verbose_name = "Evaluación"
-        verbose_name_plural = "Evaluaciones"
-        ordering = ['fecha']
 
-# Resumen de evaluaciones por estudiante y periodo
-class EvaluacionResumen(models.Model):
-    id = models.AutoField(primary_key=True)
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    cuatrimestre = models.IntegerField()
-    anio = models.IntegerField()
-    calificaciones = models.DecimalField(max_digits=4, decimal_places=2)
-    aprobados = models.IntegerField()
-    reprobados = models.IntegerField()
-    promedio_cuatrimestral = models.DecimalField(max_digits=4, decimal_places=2)
-    promedio_anual = models.DecimalField(max_digits=4, decimal_places=2)
+class ProgramaEducativoAntiguo(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    nombre = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name = "Evaluación Resumen"
-        verbose_name_plural = "Evaluaciones Resumen"
-        ordering = ['estudiante', 'periodo']
+    def __str__(self):
+        return self.nombre
 
-# Distribución por cuatrimestre y carrera
-class DistribucionEstudiantesCuatrimestre(models.Model):
-    id = models.AutoField(primary_key=True)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
-    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+
+class ProgramaEducativoNuevo(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+
+class NuevoIngreso(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
+
+    examen = models.IntegerField(default=0)
+    renoes = models.IntegerField(default=0)
+    uaem_gem = models.IntegerField(default=0)
+    pase_directo = models.IntegerField(default=0)
+
+    @property
+    def total(self):
+        return self.examen + self.renoes + self.uaem_gem + self.pase_directo
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{self.ciclo_periodo} - {prog}"
+
+
+class MatriculaNuevoIngreso(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
     cantidad = models.IntegerField()
 
     def __str__(self):
-        return f"{self.carrera.nombre} - {self.periodo}: {self.cantidad} estudiantes"
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{self.ciclo_periodo} - {prog}: {self.cantidad}"
+
+
+class MatriculaHistorica(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
+    cantidad = models.IntegerField()
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{self.ciclo_periodo} - {prog}: {self.cantidad}"
+
+class MatriculaPorGenero(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    hombres = models.IntegerField(default=0)
+    mujeres = models.IntegerField(default=0)
+
+    @property
+    def total(self):
+        return self.hombres + self.mujeres
+
+    def __str__(self):
+        return f"{self.ciclo_periodo} - H:{self.hombres} M:{self.mujeres}"
+
+class MatriculaPorCuatrimestre(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
+    cantidad = models.IntegerField()
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{self.ciclo_periodo} - {prog}: {self.cantidad}"
+
+class AprovechamientoAcademico(models.Model):
+    ciclo_periodo = models.ForeignKey(CicloPeriodo, on_delete=models.CASCADE)
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
+    promedio = models.DecimalField(max_digits=4, decimal_places=2)
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{self.ciclo_periodo} - {prog}: {self.promedio}"
+
+
+class IndicadoresGenerales(models.Model):
+    ciclo_periodo = models.OneToOneField(CicloPeriodo, on_delete=models.CASCADE)
+    desertores = models.IntegerField()
+    reprobados = models.IntegerField()
+    egresados = models.IntegerField()
+
+    @property
+    def matricula_total(self):
+        total = MatriculaPorCuatrimestre.objects.filter(ciclo_periodo=self.ciclo_periodo).aggregate(
+            total=models.Sum('cantidad'))['total']
+        return total or 0
+
+    def porcentaje_desercion(self):
+        total = self.matricula_total
+        return round((self.desertores / total) * 100, 2) if total else 0.0
+
+    def porcentaje_reprobacion(self):
+        total = self.matricula_total
+        return round((self.reprobados / total) * 100, 2) if total else 0.0
+
+    def __str__(self):
+        return f"{self.ciclo_periodo}: {self.matricula_total} alumnos"
+
+class EficienciaTerminal(models.Model):
+    anio_ingreso = models.IntegerField()
+    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
+
+    matricula_ingreso = models.IntegerField()
+    egresados = models.IntegerField()
+
+    @property
+    def porcentaje_eficiencia(self):
+        if self.matricula_ingreso > 0:
+            return round((self.egresados / self.matricula_ingreso) * 100, 2)
+        return 0.0
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{prog} - {self.anio_ingreso}: {self.porcentaje_eficiencia}%"
+
+
+#TÍTULADOS HISTORICO 1 Y 2
+
+class GeneracionCarrera(models.Model):
+    programa_antiguo = models.ForeignKey('ProgramaEducativoAntiguo', on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey('ProgramaEducativoNuevo', on_delete=models.CASCADE, null=True, blank=True)
+
+    fecha_ingreso = models.DateField()  # Ejemplo: 2014-05-01 para "may-14"
+    fecha_egreso = models.DateField()  # Ejemplo: 2017-12-01 para "dic-17"
+
+    ingreso_hombres = models.IntegerField(default=0)
+    ingreso_mujeres = models.IntegerField(default=0)
+
+    egresados_cohorte_h = models.IntegerField(default=0)
+    egresados_cohorte_m = models.IntegerField(default=0)
+
+    egresados_rezagados_h = models.IntegerField(default=0)
+    egresados_rezagados_m = models.IntegerField(default=0)
+
+    titulados_h = models.IntegerField(default=0)
+    titulados_m = models.IntegerField(default=0)
+
+    registrados_dgp_h = models.IntegerField(default=0)
+    registrados_dgp_m = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = "Distribución Estudiantes por Cuatrimestre"
-        verbose_name_plural = "Distribuciones Estudiantes por Cuatrimestre"
-        ordering = ['carrera', 'periodo']
-        unique_together = ('carrera', 'periodo')
+        verbose_name = "Generación por Carrera"
+        verbose_name_plural = "Generaciones por Carrera"
+        ordering = ['fecha_ingreso']
 
+    # ---- MÉTODOS CALCULADOS ----
+
+    @property
+    def total_ingreso(self):
+        return self.ingreso_hombres + self.ingreso_mujeres
+
+    @property
+    def total_egresados(self):
+        return (self.egresados_cohorte_h + self.egresados_cohorte_m +
+                self.egresados_rezagados_h + self.egresados_rezagados_m)
+
+    @property
+    def total_titulados(self):
+        return self.titulados_h + self.titulados_m
+
+    @property
+    def total_dgp(self):
+        return self.registrados_dgp_h + self.registrados_dgp_m
+
+    @property
+    def tasa_titulacion(self):
+        ingresos = self.total_ingreso
+        return round((self.total_titulados / ingresos) * 100, 2) if ingresos else 0.0
+
+    def __str__(self):
+        prog = self.programa_antiguo or self.programa_nuevo
+        return f"{prog} ({self.fecha_ingreso.strftime('%m-%Y')} - {self.fecha_egreso.strftime('%m-%Y')})"
