@@ -1,12 +1,11 @@
 from django.db import models
 
 class Usuarios(models.Model):
-    matricula = models.CharField(max_length=20, primary_key=True)
-    correo = models.EmailField(unique=True)
+    usuario_id = models.CharField(max_length=20, primary_key=True)
     password = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.matricula} - {self.correo}"
+        return f"{self.usuario_id} - {self.correo}"
 
     class Meta:
         verbose_name = "Administrador"

@@ -6,15 +6,15 @@ def login_view(request):
     template_view = "login.html"
     
     if request.method == 'POST':
-        matricula = request.POST.get('matricula')
+        usuario_id = request.POST.get('usuario_id')
         password = request.POST.get('password')
 
         try:
-            usuario = Usuarios.objects.get(matricula=matricula, password=password)
+            usuario = Usuarios.objects.get(usuario_id=usuario_id, password=password)
             # Guardar en sesión
             request.session['usuario_id'] = usuario.usuario_id
-            request.session['matricula'] = usuario.matricula
-            request.session['nombre'] = usuario.nombre
+            request.session['usuario_id'] = usuario.usuario_id
+            
 
             return redirect('administrador')
         except Usuarios.DoesNotExist:
