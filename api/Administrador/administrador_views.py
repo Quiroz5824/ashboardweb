@@ -52,3 +52,6 @@ def generar_plantilla_csv(request):
         return response
 
     return HttpResponse("Método no permitido", status=405)
+
+
+

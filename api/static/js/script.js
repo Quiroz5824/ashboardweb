@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Mantener abiertos el menú y submenú activos
     if (activeMenu) {
         const menu = document.querySelector(`[data-menu="${activeMenu}"]`);
-        if (menu) {
+        if (menu && menu.nextElementSibling) {
             menu.classList.add("active");
             menu.nextElementSibling.style.display = "block";
         }
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (activeSubmenu) {
         const submenu = document.querySelector(`[data-submenu="${activeSubmenu}"]`);
-        if (submenu) {
+        if (submenu && submenu.nextElementSibling) {
             submenu.classList.add("active");
             submenu.nextElementSibling.style.display = "block";
         }
@@ -27,9 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Mostrar solo el submenú seleccionado
     menuItems.forEach((item) => {
         item.addEventListener("click", function (e) {
-            e.preventDefault();
-
             let submenu = this.nextElementSibling;
+
+            // Si no hay submenu, no se hace toggle, y se permite la redirección
+            if (!submenu || !submenu.classList.contains("submenu")) {
+                return;
+            }
+
+            e.preventDefault(); // solo si hay submenú se previene la redirección
 
             // 🔒 Ocultar otros submenús
             document.querySelectorAll(".submenu").forEach((menu) => {
@@ -53,22 +58,25 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Mostrar solo el sub-submenú seleccionado
     submenuItems.forEach((item) => {
         item.addEventListener("click", function (e) {
-            e.preventDefault();
-
             let subsubmenu = this.nextElementSibling;
 
-            // 🔒 Ocultar otros sub-submenús dentro del mismo submenú
-            let parentSubmenu = this.closest(".submenu");
-            parentSubmenu.querySelectorAll(".sub-submenu").forEach((submenu) => {
-                if (submenu !== subsubmenu) {
-                    submenu.style.display = "none";
-                }
-            });
+            if (!subsubmenu || !subsubmenu.classList.contains("sub-submenu")) {
+                return;
+            }
 
-            // ✅ Mostrar solo el sub-submenú seleccionado
+            e.preventDefault();
+
+            let parentSubmenu = this.closest(".submenu");
+            if (parentSubmenu) {
+                parentSubmenu.querySelectorAll(".sub-submenu").forEach((submenu) => {
+                    if (submenu !== subsubmenu) {
+                        submenu.style.display = "none";
+                    }
+                });
+            }
+
             subsubmenu.style.display = subsubmenu.style.display === "block" ? "none" : "block";
 
-            // ✅ Guardar el estado del sub-submenú en localStorage
             if (subsubmenu.style.display === "block") {
                 localStorage.setItem("activeSubmenu", this.getAttribute("data-submenu"));
             } else {
