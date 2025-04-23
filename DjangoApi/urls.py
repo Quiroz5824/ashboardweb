@@ -10,6 +10,7 @@ from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
     subir_csv_nuevo_ingreso
 )
+from api.Administrador import matriculagenero_views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -36,7 +37,9 @@ urlpatterns = [
    
     # ✅ Examen Admisión
 # en urls.py
-    path('administrador/examen-admision/', examen_admision_view, name='examen_admision')
+    path('administrador/examen-admision/', examen_admision_view, name='examen_admision'),
+    path('administrador/matricula-genero/', matriculagenero_views.matriculagenero, name='matricula_por_genero'),
+
 ]
 
 if settings.DEBUG:
