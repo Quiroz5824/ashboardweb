@@ -4,7 +4,6 @@ from api.home.home_views import home_view, home_calificaciones, home_aprobados, 
 from api.login.login_views import login_view, logout_view
 from api.Administrador.administrador_views import administrador_view, subir_calificaciones, gestionar_usuarios, generar_plantilla_csv
 from api.views import egresados_view
-
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
@@ -13,6 +12,10 @@ from api.Administrador.csv_views import (
 from api.Administrador import matriculagenero_views
 from django.conf import settings
 from django.conf.urls.static import static
+
+# ✅ Correcto
+from api.Administrador.matriculaHistorica_views import matricula_historica
+
 
 urlpatterns = [
     path('', home_view, name='index'),
@@ -34,11 +37,9 @@ urlpatterns = [
 
     path('administrador/descargar-plantilla-nuevo-ingreso/', descargar_plantilla_nuevo_ingreso, name='descargar_plantilla_nuevo_ingreso'),
     path('administrador/subir-csv-nuevo-ingreso/', subir_csv_nuevo_ingreso, name='subir_csv_nuevo_ingreso'),
-   
-    # ✅ Examen Admisión
-# en urls.py
     path('administrador/examen-admision/', examen_admision_view, name='examen_admision'),
     path('administrador/matricula-genero/', matriculagenero_views.matriculagenero, name='matricula_por_genero'),
+    path('administrador/matricula-historica/', matricula_historica, name='matricula_historica'),
 
 ]
 
