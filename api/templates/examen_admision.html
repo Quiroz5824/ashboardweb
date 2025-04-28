@@ -4,6 +4,46 @@
 {% block content %}
 <h1>Examen de Admisión</h1>
 
+<!-- Alerta de ciclo creado -->
+{% if mensaje %}
+<div id="alertaCiclo" style="
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn 0.5s ease-in-out;
+">
+    {{ mensaje|safe }}
+</div>
+
+<script>
+setTimeout(() => {
+    const alerta = document.getElementById('alertaCiclo');
+    if (alerta) {
+        alerta.style.transition = "opacity 0.5s ease";
+        alerta.style.opacity = "0";
+        setTimeout(() => alerta.remove(), 500);
+    }
+}, 3000);
+</script>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+{% endif %}
+
 <!-- Contenedor superior -->
 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
     <div>
@@ -15,12 +55,6 @@
                 <i class="fas fa-plus-circle"></i> Crear Ciclo / Periodo
             </button>
         </form>
-
-        {% if mensaje %}
-        <div style="margin-top: 15px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px;">
-            {{ mensaje|safe }}
-        </div>
-        {% endif %}
     </div>
 
     <!-- Programas antiguos y nuevos -->
@@ -29,14 +63,18 @@
             <strong>📘 Programas antiguos:</strong>
             {% for pa in programas_antiguos %}
                 <div>{{ pa.id }} - {{ pa.nombre }}</div>
-            {% empty %}<div><em>No hay programas antiguos</em></div>{% endfor %}
+            {% empty %}
+                <div><em>No hay programas antiguos</em></div>
+            {% endfor %}
         </div>
         <br>
         <div>
             <strong>📗 Programas nuevos:</strong>
             {% for pn in programas_nuevos %}
                 <div>{{ pn.id }} - {{ pn.nombre }}</div>
-            {% empty %}<div><em>No hay programas nuevos</em></div>{% endfor %}
+            {% empty %}
+                <div><em>No hay programas nuevos</em></div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -81,52 +119,61 @@
     </div>
 </form>
 
-<!-- Sección de gráficas -->
-<div style="margin-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap;">
-    <div style="flex: 1;">
-        <h2 style="margin-bottom: 20px;">Visualización Dinámica de Modalidades</h2>
-        <div id="contenedorGraficas"
-            style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 100%;">
-            <canvas id="graficaBarras" width="180" height="130"></canvas>
-            <canvas id="graficaLinea" width="180" height="130"></canvas>
-            <canvas id="graficaPastel" width="160" height="160"></canvas>
-        </div>
-    </div>
+<!-- Tabla detalle -->
+<div style="margin-top: 40px; text-align: center;">
+    <h3>Detalle por Programa</h3>
+    <table border="1" cellspacing="0" cellpadding="5" style="margin: auto; text-align: center;">
+        <thead style="background-color: #f0f0f0;">
+            <tr>
+                <th>Programa</th>
+                <th>Examen</th>
+                <th>RENOES</th>
+                <th>UAEM-GEM</th>
+                <th>Pase Directo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in detalle_programas %}
+            <tr>
+                <td>{{ fila.programa }}</td>
+                <td>{{ fila.examen }}</td>
+                <td>{{ fila.renoes }}</td>
+                <td>{{ fila.uaem_gem }}</td>
+                <td>{{ fila.pase_directo }}</td>
+            </tr>
+            {% endfor %}
+            {% if detalle_programas %}
+            <tr style="font-weight: bold;">
+                <td>Total</td>
+                <td>{{ datos_graficas.examen|default:0 }}</td>
+                <td>{{ datos_graficas.renoes|default:0 }}</td>
+                <td>{{ datos_graficas.uaem_gem|default:0 }}</td>
+                <td>{{ datos_graficas.pase_directo|default:0 }}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
 
-    <!-- Tabla detalle -->
-    <div style="flex: 1; margin-top: 40px;">
-        <h3 style="text-align: center;">Detalle por Programa</h3>
-        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
-            <thead style="background-color: #f0f0f0;">
-                <tr>
-                    <th>Programa</th>
-                    <th>Examen</th>
-                    <th>RENOES</th>
-                    <th>UAEM-GEM</th>
-                    <th>Pase Directo</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for fila in detalle_programas %}
-                <tr>
-                    <td>{{ fila.programa }}</td>
-                    <td>{{ fila.examen }}</td>
-                    <td>{{ fila.renoes }}</td>
-                    <td>{{ fila.uaem_gem }}</td>
-                    <td>{{ fila.pase_directo }}</td>
-                </tr>
-                {% endfor %}
-                {% if detalle_programas %}
-                <tr style="font-weight: bold;">
-                    <td>Total</td>
-                    <td>{{ datos_graficas.examen|default:0 }}</td>
-                    <td>{{ datos_graficas.renoes|default:0 }}</td>
-                    <td>{{ datos_graficas.uaem_gem|default:0 }}</td>
-                    <td>{{ datos_graficas.pase_directo|default:0 }}</td>
-                </tr>
-                {% endif %}
-            </tbody>
-        </table>
+<!-- Sección de gráficas -->
+<div style="margin-top: 30px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Visualización Dinámica de Modalidades</h2>
+
+    <div id="contenedorGraficas" 
+        style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; align-items: center;">
+
+        <div style="width: 300px; height: 220px;">
+            <canvas id="graficaBarras"></canvas>
+        </div>
+
+        <div style="width: 300px; height: 220px;">
+            <canvas id="graficaLinea"></canvas>
+        </div>
+
+        <div style="width: 250px; height: 220px;">
+            <canvas id="graficaPastel"></canvas>
+        </div>
+
     </div>
 </div>
 
@@ -160,7 +207,11 @@
                         backgroundColor: ['#007bff', '#fd7e14', '#28a745', '#dc3545']
                     }]
                 },
-                options: { animation: { duration: 2000 }, responsive: true }
+                options: { 
+                    animation: { duration: 2000 }, 
+                    responsive: true, 
+                    maintainAspectRatio: false
+                }
             });
         }
 
@@ -176,7 +227,11 @@
                         tension: 0.4
                     }]
                 },
-                options: { animation: { duration: 2000 }, responsive: true }
+                options: { 
+                    animation: { duration: 2000 }, 
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             });
         }
 
@@ -190,7 +245,11 @@
                         backgroundColor: ['#007bff', '#fd7e14', '#28a745', '#dc3545']
                     }]
                 },
-                options: { animation: { duration: 2000 }, responsive: true }
+                options: { 
+                    animation: { duration: 2000 }, 
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             });
         }
     }

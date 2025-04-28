@@ -27,6 +27,11 @@ from django.conf.urls.static import static
 from api.Administrador.matriculaHistorica_views import matricula_historica
 
 
+
+from api.Administrador.eficiencia3anios_views import eficiencia_3anios_view
+
+
+
 urlpatterns = [
     # Vistas públicas
     path('', home_view, name='index'),
@@ -60,6 +65,8 @@ urlpatterns = [
     path('administrador/importar-matricula-cuatrimestres/', importar_matricula_cuatrimestres, name='importar_matricula_cuatrimestres'),
     path('administrador/descargar-plantilla-cuatrimestre/', descargar_plantilla_matricula_cuatrimestre, name='descargar_plantilla_cuatrimestre'),
     path('administrador/subir-csv-cuatrimestre/', subir_csv_matricula_cuatrimestre, name='subir_csv_cuatrimestre'),
+    path('administrador/eficiencia-3anios/', eficiencia_3anios_view, name='eficiencia_3anios'),
+
 ]
 
 # Archivos estáticos en modo debug
