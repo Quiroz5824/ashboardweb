@@ -5,6 +5,7 @@ from api.login.login_views import login_view, logout_view
 from api.Administrador.administrador_views import administrador_view, subir_calificaciones, gestionar_usuarios, generar_plantilla_csv
 from api.views import egresados_view
 
+
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
@@ -25,7 +26,8 @@ from django.conf.urls.static import static
 
 # ✅ Correcto
 from api.Administrador.matriculaHistorica_views import matricula_historica
-
+from api.Administrador.aprovechamiento_views import aprovechamiento_view
+from api.Administrador.aprovechamiento_tools import descargar_plantilla_aprovechamiento
 
 urlpatterns = [
     # Vistas públicas
@@ -60,6 +62,13 @@ urlpatterns = [
     path('administrador/importar-matricula-cuatrimestres/', importar_matricula_cuatrimestres, name='importar_matricula_cuatrimestres'),
     path('administrador/descargar-plantilla-cuatrimestre/', descargar_plantilla_matricula_cuatrimestre, name='descargar_plantilla_cuatrimestre'),
     path('administrador/subir-csv-cuatrimestre/', subir_csv_matricula_cuatrimestre, name='subir_csv_cuatrimestre'),
+
+    
+    # ✅ NUEVA RUTA: Aprovechamiento Académico
+
+    path('administrador/aprovechamiento/', aprovechamiento_view, name='aprovechamiento'),
+    path('administrador/descargar-plantilla-aprovechamiento/', descargar_plantilla_aprovechamiento, name='descargar_plantilla_aprovechamiento'),
+
 ]
 
 # Archivos estáticos en modo debug
