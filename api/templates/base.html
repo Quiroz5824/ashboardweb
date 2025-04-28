@@ -10,6 +10,19 @@
     <script defer src="{% static 'js/script.js' %}"></script>
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        .sidebar {
+            position: sticky; /* hace que el sidebar siga el desplazamiento */
+            top: 0; /* se "pega" cuando toca la parte superior de la ventana */
+            height: 100vh; /* ocupa toda la altura visible de la pantalla */
+            overflow-y: auto; /* añade scroll interno si el menú es largo */
+        }
+    
+        .content {
+            padding-left: 30px; /* ajusta según ancho real del sidebar */
+        }
+    </style>
 </head>
 <body>
 
