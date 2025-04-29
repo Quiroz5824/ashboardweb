@@ -28,6 +28,10 @@ from django.conf.urls.static import static
 from api.Administrador.matriculaHistorica_views import matricula_historica
 from api.Administrador.aprovechamiento_views import aprovechamiento_view
 from api.Administrador.aprovechamiento_tools import descargar_plantilla_aprovechamiento
+from api.Administrador.indicadores_generales_view import indicadores_generales_view
+from api.Administrador.indicadores_generales_view import (indicadores_generales_view, descargar_plantilla_indicadores, subir_csv_indicadores)
+
+
 
 urlpatterns = [
     # Vistas públicas
@@ -68,6 +72,12 @@ urlpatterns = [
 
     path('administrador/aprovechamiento/', aprovechamiento_view, name='aprovechamiento'),
     path('administrador/descargar-plantilla-aprovechamiento/', descargar_plantilla_aprovechamiento, name='descargar_plantilla_aprovechamiento'),
+
+    #Indicadores generales
+
+    path('administrador/indicadores-generales/', indicadores_generales_view, name='indicadores_generales'),
+    path('administrador/descargar-plantilla-indicadores/', descargar_plantilla_indicadores, name='descargar_plantilla_indicadores'),
+    path('administrador/subir-csv-indicadores/', subir_csv_indicadores, name='subir_csv_indicadores'),
 
 ]
 
