@@ -1,0 +1,139 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}Matrícula Histórica{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center;">Matrícula Histórica</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle" style="font-size: 14px;">
+            <thead>
+                <tr>
+                    <th style="background-color: #dcedc8;">PE</th>
+                    {% for cp in ciclos %}
+                        <th style="background-color: #dcedc8;">{{ cp.periodo.nombre }} {{ cp.ciclo.anio }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for programa in programas_antiguos %}
+                <tr style="background-color: #fff9c4;">
+                    <td><strong>{{ programa.nombre }}</strong></td>
+                    {% for cp in ciclos %}
+                        {% with val=datos|get_item:programa.id|get_item:cp.id %}
+                        <td>
+                            <input type="number" name="celda_antiguo_{{ programa.id }}_{{ cp.id }}" value="{{ val|default:'' }}" class="form-control text-center" min="0">
+                        </td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+                {% for programa in programas_nuevos %}
+                <tr style="background-color: #b3e5fc;">
+                    <td><strong>{{ programa.nombre }}</strong></td>
+                    {% for cp in ciclos %}
+                        {% with val=datos|get_item:programa.id|get_item:cp.id %}
+                        <td>
+                            <input type="number" name="celda_nuevo_{{ programa.id }}_{{ cp.id }}" value="{{ val|default:'' }}" class="form-control text-center" min="0">
+                        </td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+                <tr style="background-color: #ffcdd2;">
+                    <td><strong>MATRÍCULA</strong></td>
+                    {% for cp in ciclos %}
+                        <td><strong>{{ totales_por_ciclo|get_item:cp.id|default:"-" }}</strong></td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+</form>
+
+<hr>
+
+<hr>
+
+<h5 class="text-center mt-4">Visualización Gráfica</h5>
+<canvas id="graficoMatriculaTotal" height="130"></canvas>
+<canvas id="graficoMatriculaCarrera" height="140" class="mt-4"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ labels_json|safe }};
+    const totales = {{ totales_json|safe }};
+    const programas = {{ programas_json|safe }};
+
+    // Gráfico total
+    new Chart(document.getElementById('graficoMatriculaTotal').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Matrícula Total',
+                    data: totales,
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Tendencia',
+                    data: totales,
+                    type: 'line',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Estudiantes' }
+                }
+            }
+        }
+    });
+
+    // Gráfico por programa
+    const datasetsProgramas = Object.entries(programas).map(([nombre, valores]) => ({
+        label: nombre,
+        data: valores,
+        backgroundColor: `hsla(${Math.random() * 360}, 70%, 60%, 0.6)`,
+        borderColor: `hsla(${Math.random() * 360}, 70%, 60%, 1)`,
+        borderWidth: 1
+    }));
+
+    new Chart(document.getElementById('graficoMatriculaCarrera').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasetsProgramas
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Estudiantes' }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
