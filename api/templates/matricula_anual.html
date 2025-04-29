@@ -1,4 +1,5 @@
 {% extends 'base_admin.html' %}
+<<<<<<< HEAD
 {% load static %}
 
 {% block title %}Matrícula por Año{% endblock %}
@@ -197,3 +198,42 @@
     actualizarGrafica();
 </script>
 {% endblock %}
+=======
+{% block title %}Matrícula Anual{% endblock %}
+
+{% block content %}
+<div class="admin-panel">
+    <h1>Matrícula Anual</h1>
+
+    <div style="margin-bottom: 20px;">
+        <a href="?tipo=historica" class="btn-admin">Matrícula Histórica</a>
+        <a href="?tipo=actual" class="btn-admin">Matrícula Actual</a>
+    </div>
+
+    <div>
+        {% if datos %}
+        <table class="crud-table">
+            <thead>
+                <tr>
+                    {% for columna in datos.0.keys %}
+                        <th>{{ columna }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in datos %}
+                <tr>
+                    {% for valor in fila.values %}
+                        <td>{{ valor }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay datos disponibles para mostrar.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2

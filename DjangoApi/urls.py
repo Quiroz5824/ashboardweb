@@ -32,13 +32,10 @@ from api.views import egresados_view
 from api.Administrador.examen_views import examen_admision_view
 
 
-
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
 
 
-
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
-
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
     subir_csv_nuevo_ingreso
@@ -54,10 +51,7 @@ from api.Administrador.matricula_cuatrimestre_views import (
 )
 from api.Administrador.eficiencia3anios_views import eficiencia_3anios_view
 
-
-
 # === URLs ===
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -128,11 +122,11 @@ urlpatterns = [
     path('administrador/descargar-plantilla-indicadores/', descargar_plantilla_indicadores, name='descargar_plantilla_indicadores'),
     path('administrador/subir-csv-indicadores/', subir_csv_indicadores, name='subir_csv_indicadores'),
 
-
     # ✅ Eficiencia Terminal
     path("administrador/eficiencia-terminal/", eficiencia_terminal_view, name="eficiencia_terminal"),
     path("administrador/descargar-plantilla-eficiencia-terminal/", descargar_plantilla_eficiencia_terminal, name="descargar_plantilla_eficiencia_terminal"),
     path("administrador/subir-csv-eficiencia-terminal/", subir_csv_eficiencia_terminal, name="subir_csv_eficiencia_terminal"),
+
 
 ]
 

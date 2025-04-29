@@ -55,7 +55,10 @@
             </tbody>
         </table>
     </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     <div class="text-center mt-3">
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </div>
@@ -63,6 +66,7 @@
 
 <hr>
 
+<<<<<<< HEAD
 <h5 class="text-center mt-4">Visualización Gráfica</h5>
 
 <!-- 🔥 Filtro de gráficas -->
@@ -96,6 +100,13 @@
         </div>
     </div>
 </div>
+=======
+<hr>
+
+<h5 class="text-center mt-4">Visualización Gráfica</h5>
+<canvas id="graficoMatriculaTotal" height="130"></canvas>
+<canvas id="graficoMatriculaCarrera" height="140" class="mt-4"></canvas>
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -103,6 +114,7 @@
     const totales = {{ totales_json|safe }};
     const programas = {{ programas_json|safe }};
 
+<<<<<<< HEAD
     const chartTotal = new Chart(document.getElementById('graficoMatriculaTotal'), {
         type: 'bar',
         data: {
@@ -126,6 +138,44 @@
         options: { responsive: true }
     });
 
+=======
+    // Gráfico total
+    new Chart(document.getElementById('graficoMatriculaTotal').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Matrícula Total',
+                    data: totales,
+                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Tendencia',
+                    data: totales,
+                    type: 'line',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Estudiantes' }
+                }
+            }
+        }
+    });
+
+    // Gráfico por programa
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     const datasetsProgramas = Object.entries(programas).map(([nombre, valores]) => ({
         label: nombre,
         data: valores,
@@ -134,6 +184,7 @@
         borderWidth: 1
     }));
 
+<<<<<<< HEAD
     const chartCarrera = new Chart(document.getElementById('graficoMatriculaCarrera'), {
         type: 'bar',
         data: { labels: labels, datasets: datasetsProgramas },
@@ -180,6 +231,24 @@
     }
 
     actualizarGraficas();
+=======
+    new Chart(document.getElementById('graficoMatriculaCarrera').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasetsProgramas
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Estudiantes' }
+                }
+            }
+        }
+    });
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
 </script>
 
 {% endblock %}

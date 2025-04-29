@@ -4,6 +4,7 @@
 {% block content %}
 <h1>Examen de Admisión</h1>
 
+<<<<<<< HEAD
 <!-- Alerta de ciclo creado -->
 {% if mensaje %}
 <div id="alertaCiclo" style="
@@ -44,6 +45,8 @@ setTimeout(() => {
 </style>
 {% endif %}
 
+=======
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
 <!-- Contenedor superior -->
 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
     <div>
@@ -55,6 +58,15 @@ setTimeout(() => {
                 <i class="fas fa-plus-circle"></i> Crear Ciclo / Periodo
             </button>
         </form>
+<<<<<<< HEAD
+=======
+
+        {% if mensaje %}
+        <div style="margin-top: 15px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px;">
+            {{ mensaje|safe }}
+        </div>
+        {% endif %}
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     </div>
 
     <!-- Programas antiguos y nuevos -->
@@ -63,18 +75,26 @@ setTimeout(() => {
             <strong>📘 Programas antiguos:</strong>
             {% for pa in programas_antiguos %}
                 <div>{{ pa.id }} - {{ pa.nombre }}</div>
+<<<<<<< HEAD
             {% empty %}
                 <div><em>No hay programas antiguos</em></div>
             {% endfor %}
+=======
+            {% empty %}<div><em>No hay programas antiguos</em></div>{% endfor %}
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
         </div>
         <br>
         <div>
             <strong>📗 Programas nuevos:</strong>
             {% for pn in programas_nuevos %}
                 <div>{{ pn.id }} - {{ pn.nombre }}</div>
+<<<<<<< HEAD
             {% empty %}
                 <div><em>No hay programas nuevos</em></div>
             {% endfor %}
+=======
+            {% empty %}<div><em>No hay programas nuevos</em></div>{% endfor %}
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
         </div>
     </div>
 </div>
@@ -119,6 +139,7 @@ setTimeout(() => {
     </div>
 </form>
 
+<<<<<<< HEAD
 <!-- Tabla detalle -->
 <div style="margin-top: 40px; text-align: center;">
     <h3>Detalle por Programa</h3>
@@ -174,6 +195,54 @@ setTimeout(() => {
             <canvas id="graficaPastel"></canvas>
         </div>
 
+=======
+<!-- Sección de gráficas -->
+<div style="margin-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap;">
+    <div style="flex: 1;">
+        <h2 style="margin-bottom: 20px;">Visualización Dinámica de Modalidades</h2>
+        <div id="contenedorGraficas"
+            style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 100%;">
+            <canvas id="graficaBarras" width="180" height="130"></canvas>
+            <canvas id="graficaLinea" width="180" height="130"></canvas>
+            <canvas id="graficaPastel" width="160" height="160"></canvas>
+        </div>
+    </div>
+
+    <!-- Tabla detalle -->
+    <div style="flex: 1; margin-top: 40px;">
+        <h3 style="text-align: center;">Detalle por Programa</h3>
+        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
+            <thead style="background-color: #f0f0f0;">
+                <tr>
+                    <th>Programa</th>
+                    <th>Examen</th>
+                    <th>RENOES</th>
+                    <th>UAEM-GEM</th>
+                    <th>Pase Directo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in detalle_programas %}
+                <tr>
+                    <td>{{ fila.programa }}</td>
+                    <td>{{ fila.examen }}</td>
+                    <td>{{ fila.renoes }}</td>
+                    <td>{{ fila.uaem_gem }}</td>
+                    <td>{{ fila.pase_directo }}</td>
+                </tr>
+                {% endfor %}
+                {% if detalle_programas %}
+                <tr style="font-weight: bold;">
+                    <td>Total</td>
+                    <td>{{ datos_graficas.examen|default:0 }}</td>
+                    <td>{{ datos_graficas.renoes|default:0 }}</td>
+                    <td>{{ datos_graficas.uaem_gem|default:0 }}</td>
+                    <td>{{ datos_graficas.pase_directo|default:0 }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     </div>
 </div>
 
@@ -207,11 +276,15 @@ setTimeout(() => {
                         backgroundColor: ['#007bff', '#fd7e14', '#28a745', '#dc3545']
                     }]
                 },
+<<<<<<< HEAD
                 options: { 
                     animation: { duration: 2000 }, 
                     responsive: true, 
                     maintainAspectRatio: false
                 }
+=======
+                options: { animation: { duration: 2000 }, responsive: true }
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
             });
         }
 
@@ -227,11 +300,15 @@ setTimeout(() => {
                         tension: 0.4
                     }]
                 },
+<<<<<<< HEAD
                 options: { 
                     animation: { duration: 2000 }, 
                     responsive: true,
                     maintainAspectRatio: false
                 }
+=======
+                options: { animation: { duration: 2000 }, responsive: true }
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
             });
         }
 
@@ -245,11 +322,15 @@ setTimeout(() => {
                         backgroundColor: ['#007bff', '#fd7e14', '#28a745', '#dc3545']
                     }]
                 },
+<<<<<<< HEAD
                 options: { 
                     animation: { duration: 2000 }, 
                     responsive: true,
                     maintainAspectRatio: false
                 }
+=======
+                options: { animation: { duration: 2000 }, responsive: true }
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
             });
         }
     }

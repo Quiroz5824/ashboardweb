@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 {% load static %}
 
 <!DOCTYPE html><html lang="es">
+=======
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{% static 'imagenes/uptex.png' %}">
     <title>Dashboard Universidad</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'css/style_buttoms.css' %}"><script defer src="{% static 'js/script.js' %}"></script>
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -26,10 +34,22 @@
 
 </head>
 <body><div class="sidebar">
+=======
+    <link rel="stylesheet" href="{% static 'css/style_buttoms.css' %}">
+
+    <script defer src="{% static 'js/script.js' %}"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="sidebar">
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     <div class="sidebar-logo" style="text-align: center; margin-bottom: 20px;">
         <a href="{% url 'index' %}">
             <img src="{% static 'imagenes/uptex_logo.png' %}" alt="Logo UPTEX" style="height: 60px; width: auto;">
         </a>
+<<<<<<< HEAD
     </div><div class="menu-container">
     <ul class="menu">
         <li class="menu-item">
@@ -108,6 +128,43 @@
     </ul>
 
 =======
+=======
+    </div>
+
+
+    <div class="menu-container">
+        <ul class="menu">
+
+
+
+
+            <li class="menu-item">
+                <a href="{% url 'examen_admision' %}">
+                    <i class="fas fa-file-signature"></i> Examen Admisión
+                </a>
+            </li>
+            
+                
+            
+            <li class="menu-item">
+                <a href="{% url 'matricula_h_nuevo_ingreso' %}">
+
+                    <i class="fas fa-file-signature"></i> Matricula H. Nuevo Ingreso quiros
+                </a>
+            </li>
+            
+                <li class="menu-item">
+                    <a href="{% url 'matricula_historica' %}">
+                        <i class="fas fa-file-signature"></i> Matricula Historica
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a href="{% url 'matricula_por_genero' %}">
+                        <i class="fas fa-file-signature"></i> Matricula Por Genero
+                    </a>
+                </li>
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
                 <li class="menu-item">
                     <a href="#"><i class="fas fa-chart-bar"></i> Matrícula Anual</a>
                     <ul class="submenu">
@@ -123,6 +180,7 @@
                 <li class="menu-item">
                     <a href="{% url 'matricula_por_cuatrimestre' %}"><i class="fas fa-layer-group"></i> Matricula por cuatrimestre</a>
                 </li>
+<<<<<<< HEAD
 
                 
             
@@ -133,6 +191,15 @@
 
                 <li class="menu-item">
                     <a href="{% url 'indicadores_generales' %}"><i class="fas fa-layer-group"></i> Desercion y Reprobacion</a>
+=======
+            
+                <li class="menu-item">
+                    <a href="#"><i class="fas fa-chart-pie"></i> Aprovechamiento</a>
+                </li>
+            
+                <li class="menu-item">
+                    <a href="#"><i class="fas fa-user-minus"></i> Reprobación y Deserción</a>
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
                 </li>
             
                 <li class="menu-item">
@@ -140,22 +207,37 @@
                 </li>
             
                 <li class="menu-item">
+<<<<<<< HEAD
                     <a href="{% url 'eficiencia_3anios' %}">
                         <i class="fas fa-file-signature"></i> Eficiencia Terminal 3 Años
                     </a>
                 </li>
+=======
+                    <a href="#"><i class="fas fa-stopwatch"></i> Eficiencia Terminal 3 años</a>
+                </li>
+                
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
                 <li class="menu-item">
                     <a href="#"><i class="fas fa-certificate"></i> Titulados</a>
                     <ul class="submenu">
                         <li class="submenu-item">
                             <a href="#"><i class="fas fa-chart-line"></i> Titulados Histórico 220623</a>
                         </li>
+<<<<<<< HEAD
 
                         <li class="submenu-item">
                             <a href="#"><i class="fas fa-chart-line"></i> Titulados Histórico act</a>
                         </li>
                     </ul>
                 </li>
+=======
+                        <li class="submenu-item">
+                            <a href="{% url 'titulados_historico_actual' %}"><i class="fas fa-chart-line"></i> Titulados Histórico act</a>
+                        </li>
+                    </ul>
+                </li>
+
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
             <li class="menu-item">
                 <a href="#"><i class="fas fa-user-shield"></i> Administrador</a>
                 <ul class="submenu">
@@ -166,13 +248,25 @@
             </li>
         </ul>
     </div>
+<<<<<<< HEAD
 >>>>>>> 4877d479896424e9478b6be62195ef4ecdc99c3a
 </div>
 
 </div><div class="content">
+=======
+</div>
+
+<div class="content">
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
     {% block content %}
     <h1>Bienvenido Administrador</h1>
     <p>¿Qué desea actualizar?</p>
     {% endblock %}
+<<<<<<< HEAD
 </div></body>
+=======
+</div>
+
+</body>
+>>>>>>> 6d0747c27f9235505bd112617dfe7c0b41b092e2
 </html>
