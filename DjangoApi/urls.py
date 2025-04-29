@@ -78,6 +78,6 @@ urlpatterns = [
     path('administrador/descargar-plantilla-titulados-historico-actual/', descargar_plantilla_titulados_historico_actual, name='descargar_plantilla_titulados_historico_actual'),
 ]
 
-# Archivos estáticos en modo debug
+# Archivos estáticos en modo debug.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
