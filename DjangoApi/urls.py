@@ -3,6 +3,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+<<<<<<< HEAD
 # Vistas de Home
 from api.home.home_views import (
     home_view,
@@ -30,6 +31,10 @@ from api.Administrador.administrador_views import (
 # Vistas específicas
 from api.views import egresados_view
 from api.Administrador.examen_views import examen_admision_view
+=======
+
+from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
+>>>>>>> 25e929daae0bd21694ec3cd21e0f959246a9cca5
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
     subir_csv_nuevo_ingreso
@@ -45,7 +50,22 @@ from api.Administrador.matricula_cuatrimestre_views import (
 )
 from api.Administrador.eficiencia3anios_views import eficiencia_3anios_view
 
+<<<<<<< HEAD
 # === URLs ===
+=======
+from django.conf import settings
+from django.conf.urls.static import static
+
+# ✅ Correcto
+from api.Administrador.matriculaHistorica_views import matricula_historica
+from api.Administrador.aprovechamiento_views import aprovechamiento_view
+from api.Administrador.aprovechamiento_tools import descargar_plantilla_aprovechamiento
+from api.Administrador.indicadores_generales_view import indicadores_generales_view
+from api.Administrador.indicadores_generales_view import (indicadores_generales_view, descargar_plantilla_indicadores, subir_csv_indicadores)
+
+
+
+>>>>>>> 25e929daae0bd21694ec3cd21e0f959246a9cca5
 urlpatterns = [
     # Vistas públicas (Home)
     path('', home_view, name='index'),
@@ -87,8 +107,23 @@ urlpatterns = [
     path('administrador/descargar-plantilla-cuatrimestre/', descargar_plantilla_matricula_cuatrimestre, name='descargar_plantilla_cuatrimestre'),
     path('administrador/subir-csv-cuatrimestre/', subir_csv_matricula_cuatrimestre, name='subir_csv_cuatrimestre'),
 
+<<<<<<< HEAD
     # Eficiencia Terminal a 3 años
     path('administrador/eficiencia-3anios/', eficiencia_3anios_view, name='eficiencia_3anios'),
+=======
+    
+    # ✅ NUEVA RUTA: Aprovechamiento Académico
+
+    path('administrador/aprovechamiento/', aprovechamiento_view, name='aprovechamiento'),
+    path('administrador/descargar-plantilla-aprovechamiento/', descargar_plantilla_aprovechamiento, name='descargar_plantilla_aprovechamiento'),
+
+    #Indicadores generales
+
+    path('administrador/indicadores-generales/', indicadores_generales_view, name='indicadores_generales'),
+    path('administrador/descargar-plantilla-indicadores/', descargar_plantilla_indicadores, name='descargar_plantilla_indicadores'),
+    path('administrador/subir-csv-indicadores/', subir_csv_indicadores, name='subir_csv_indicadores'),
+
+>>>>>>> 25e929daae0bd21694ec3cd21e0f959246a9cca5
 ]
 
 # Archivos estáticos en modo debug
