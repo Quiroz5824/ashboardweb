@@ -170,7 +170,7 @@ class EficienciaTerminal(models.Model):
         prog = self.programa_antiguo or self.programa_nuevo
         return f"{prog} - {self.ciclo_periodo}: {self.porcentaje_eficiencia}%"
 
-
+#TÍTULADOS HISTORICO 1 Y 2
 
 #TÍTULADOS HISTORICO 1 Y 2
 
