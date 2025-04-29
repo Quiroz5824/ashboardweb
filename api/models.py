@@ -174,7 +174,7 @@ class EficienciaTerminal(models.Model):
 
 #TÍTULADOS HISTORICO 1 Y 2
 
-class GeneracionCarrera(models.Model):
+clas GeneracionCarrera(models.Model):
     programa_antiguo = models.ForeignKey('ProgramaEducativoAntiguo', on_delete=models.CASCADE, null=True, blank=True)
     programa_nuevo = models.ForeignKey('ProgramaEducativoNuevo', on_delete=models.CASCADE, null=True, blank=True)
 
