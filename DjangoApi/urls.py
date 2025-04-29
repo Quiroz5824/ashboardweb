@@ -3,7 +3,6 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 # Vistas de Home
 from api.home.home_views import (
     home_view,
@@ -32,7 +31,6 @@ from api.Administrador.administrador_views import (
 from api.views import egresados_view
 from api.Administrador.examen_views import examen_admision_view
 
-
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
@@ -49,8 +47,7 @@ from api.Administrador.matricula_cuatrimestre_views import (
 )
 from api.Administrador.eficiencia3anios_views import eficiencia_3anios_view
 
-
-
+# === URLs ===
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -104,10 +101,9 @@ urlpatterns = [
     path('administrador/descargar-plantilla-cuatrimestre/', descargar_plantilla_matricula_cuatrimestre, name='descargar_plantilla_cuatrimestre'),
     path('administrador/subir-csv-cuatrimestre/', subir_csv_matricula_cuatrimestre, name='subir_csv_cuatrimestre'),
 
-
     # Eficiencia Terminal a 3 años
     path('administrador/eficiencia-3anios/', eficiencia_3anios_view, name='eficiencia_3anios'),
-
+    
     # ✅ NUEVA RUTA: Aprovechamiento Académico
 
     path('administrador/aprovechamiento/', aprovechamiento_view, name='aprovechamiento'),
@@ -118,9 +114,9 @@ urlpatterns = [
     path('administrador/indicadores-generales/', indicadores_generales_view, name='indicadores_generales'),
     path('administrador/descargar-plantilla-indicadores/', descargar_plantilla_indicadores, name='descargar_plantilla_indicadores'),
     path('administrador/subir-csv-indicadores/', subir_csv_indicadores, name='subir_csv_indicadores'),
+
 ]
 
 # Archivos estáticos en modo debug
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
