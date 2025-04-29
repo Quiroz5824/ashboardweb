@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Usuarios(models.Model):
     usuario_id = models.CharField(max_length=20, primary_key=True)
     password = models.CharField(max_length=255)
@@ -150,12 +151,12 @@ class IndicadoresGenerales(models.Model):
 
     def __str__(self):
         return f"{self.ciclo_periodo}: {self.matricula_total} alumnos"
+  # Asegúrate de importar esto si no está
 
 class EficienciaTerminal(models.Model):
-    anio_ingreso = models.IntegerField()
-    programa_antiguo = models.ForeignKey(ProgramaEducativoAntiguo, on_delete=models.CASCADE, null=True, blank=True)
-    programa_nuevo = models.ForeignKey(ProgramaEducativoNuevo, on_delete=models.CASCADE, null=True, blank=True)
-
+    ciclo_periodo = models.ForeignKey('api.CicloPeriodo', on_delete=models.CASCADE)  # 🔁 Relación agregada
+    programa_antiguo = models.ForeignKey('api.ProgramaEducativoAntiguo', on_delete=models.CASCADE, null=True, blank=True)
+    programa_nuevo = models.ForeignKey('api.ProgramaEducativoNuevo', on_delete=models.CASCADE, null=True, blank=True)
     matricula_ingreso = models.IntegerField()
     egresados = models.IntegerField()
 
@@ -167,7 +168,8 @@ class EficienciaTerminal(models.Model):
 
     def __str__(self):
         prog = self.programa_antiguo or self.programa_nuevo
-        return f"{prog} - {self.anio_ingreso}: {self.porcentaje_eficiencia}%"
+        return f"{prog} - {self.ciclo_periodo}: {self.porcentaje_eficiencia}%"
+
 
 
 #TÍTULADOS HISTORICO 1 Y 2

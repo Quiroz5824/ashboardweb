@@ -1,0 +1,149 @@
+{% extends 'base_admin.html' %}
+{% block title %}Eficiencia Terminal{% endblock %}
+
+{% block content %}
+<h1>Eficiencia Terminal</h1>
+
+<!-- Botones de acción -->
+<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+    <a href="{% url 'descargar_plantilla_eficiencia_terminal' %}" class="btn-primary"
+        style="padding: 10px 20px; border-radius: 8px; background-color: #6cc3d5; color: white; font-weight: bold;">
+        <i class="fas fa-download"></i> Descargar Plantilla
+    </a>
+
+    <form method="POST" action="{% url 'subir_csv_eficiencia_terminal' %}" enctype="multipart/form-data"
+        style="display: flex; align-items: center; gap: 10px;">
+        {% csrf_token %}
+        <input type="file" name="archivo_csv" accept=".csv" required>
+        <button type="submit" class="btn-primary"
+            style="padding: 10px 20px; border-radius: 8px; background-color: #80ed99; color: black; font-weight: bold;">
+            <i class="fas fa-upload"></i> Subir Datos
+        </button>
+    </form>
+</div>
+
+<!-- Filtros -->
+<form method="GET" style="margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+    <div>
+        <label><strong>Ciclo:</strong></label>
+        <select id="filtroAnio" name="filtro_anio" onchange="this.form.submit()">
+            <option value="Todos">Todos</option>
+            {% for ciclo in anios %}
+                <option value="{{ ciclo.id }}" {% if ciclo.id|stringformat:"s" == request.GET.filtro_anio %}selected{% endif %}>{{ ciclo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label><strong>Tipo de gráfica:</strong></label>
+        <select id="filtroGrafica">
+            <option value="Todos">Todos</option>
+            <option value="Barras">Barras</option>
+            <option value="Pastel">Pastel</option>
+            <option value="Linea">Línea</option>
+        </select>
+    </div>
+</form>
+
+<!-- Gráficas -->
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+    <canvas id="graficaBarras" width="280" height="200"></canvas>
+    <canvas id="graficaPastel" width="280" height="200"></canvas>
+    <canvas id="graficaLinea" width="280" height="200"></canvas>
+</div>
+
+<!-- Tabla Detalle -->
+{% if eficiencia %}
+    <h3 style="text-align: center; margin-top: 30px;">Detalle de Eficiencia Terminal</h3>
+    <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
+        <thead style="background-color: #f0f0f0;">
+            <tr>
+                <th>Programa</th>
+                <th>Ciclo</th>
+                <th>Matrícula de Ingreso</th>
+                <th>Egresados</th>
+                <th>% Eficiencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in eficiencia %}
+            <tr>
+                <td>{{ i.programa_antiguo.nombre|default_if_none:i.programa_nuevo.nombre }}</td>
+                <td>{{ i.ciclo_periodo }}</td>
+                <td>{{ i.matricula_ingreso }}</td>
+                <td>{{ i.egresados }}</td>
+                <td>{{ i.porcentaje_eficiencia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="color: red; text-align: center; margin-top: 30px;">No hay datos disponibles para graficar</p>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const datos = {
+        programas: {{ programas|safe }},
+        matriculas: {{ matriculas|safe }},
+        egresados: {{ egresados|safe }},
+        porcentajes: {{ porcentajes|safe }}
+    };
+
+    const charts = {};
+    function renderGraficas(tipo = 'Todos') {
+        if (charts.barras) charts.barras.destroy();
+        if (charts.pastel) charts.pastel.destroy();
+        if (charts.linea) charts.linea.destroy();
+
+        const colores = ['#a8dadc', '#ffd6a5', '#caffbf', '#bdb2ff', '#ffadad'];
+
+        if (tipo === 'Barras' || tipo === 'Todos') {
+            charts.barras = new Chart(document.getElementById('graficaBarras'), {
+                type: 'bar',
+                data: {
+                    labels: datos.programas,
+                    datasets: [
+                        { label: 'Matrícula', data: datos.matriculas, backgroundColor: colores[0] },
+                        { label: 'Egresados', data: datos.egresados, backgroundColor: colores[1] }
+                    ]
+                },
+                options: { responsive: true, animation: { duration: 2000 } }
+            });
+        }
+
+        if (tipo === 'Pastel' || tipo === 'Todos') {
+            charts.pastel = new Chart(document.getElementById('graficaPastel'), {
+                type: 'pie',
+                data: {
+                    labels: datos.programas,
+                    datasets: [{ data: datos.porcentajes, backgroundColor: colores }]
+                },
+                options: { responsive: true, animation: { duration: 2000 } }
+            });
+        }
+
+        if (tipo === 'Linea' || tipo === 'Todos') {
+            charts.linea = new Chart(document.getElementById('graficaLinea'), {
+                type: 'line',
+                data: {
+                    labels: datos.programas,
+                    datasets: [{
+                        label: '% Eficiencia',
+                        data: datos.porcentajes,
+                        borderColor: colores[3],
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true, animation: { duration: 2000 } }
+            });
+        }
+    }
+
+    document.getElementById('filtroGrafica').addEventListener('change', (e) => {
+        renderGraficas(e.target.value);
+    });
+
+    renderGraficas();
+</script>
+{% endblock %}

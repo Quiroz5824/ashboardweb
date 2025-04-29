@@ -6,6 +6,7 @@ from django.contrib import messages
 import pandas as pd
 import io
 
+
 def indicadores_generales_view(request):
     mensaje = None
     datos_matricula = []
@@ -13,10 +14,6 @@ def indicadores_generales_view(request):
     datos_reprobacion = []
     datos_egresados = []
     ciclos_mostrar = []
-
-    if request.method == 'POST' and 'crear_ciclo' in request.POST:
-        # Aquí podrías agregar la lógica de creación automática de ciclos
-        pass
 
     ciclos_periodos = CicloPeriodo.objects.select_related('ciclo', 'periodo')
     opciones_ciclo = sorted(
@@ -56,6 +53,7 @@ def indicadores_generales_view(request):
         'ciclos_mostrar': ciclos_mostrar
     })
 
+
 def descargar_plantilla_indicadores(request):
     output = io.StringIO()
     columnas = ['Matricula', 'Desercion', 'Reprobacion', 'Egresados']
@@ -66,6 +64,7 @@ def descargar_plantilla_indicadores(request):
     response['Content-Disposition'] = 'attachment; filename="PLANTILLA_INDICADORES_GENERALES.csv"'
     return response
 
+
 def subir_csv_indicadores(request):
     if request.method == 'POST' and request.FILES.get('archivo_csv'):
         archivo = request.FILES['archivo_csv']
@@ -74,7 +73,6 @@ def subir_csv_indicadores(request):
         try:
             df = pd.read_csv(archivo)
 
-            # Buscar el último ciclo/periodo
             ultimo_ciclo = CicloPeriodo.objects.order_by('-ciclo__anio', '-periodo__clave').first()
             if not ultimo_ciclo:
                 messages.error(request, "⚠️ No existe un ciclo/periodo creado. Primero debes crear uno.")
@@ -84,15 +82,16 @@ def subir_csv_indicadores(request):
                 fila_num = index + 2
 
                 try:
-                    desertores = int(fila['Desercion'])
-                    reprobados = int(fila['Reprobacion'])
+                    matricula = int(fila['Matricula'])
+                    desercion = int(fila['Desercion'])
+                    reprobacion = int(fila['Reprobacion'])
                     egresados = int(fila['Egresados'])
 
                     IndicadoresGenerales.objects.create(
                         ciclo_periodo=ultimo_ciclo,
-                        desertores=desertores,
-                        reprobados=reprobados,
-                        egresados=egresados,
+                        desertores=desercion,
+                        reprobados=reprobacion,
+                        egresados=egresados
                     )
 
                 except ValueError as ve:

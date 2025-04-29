@@ -7,7 +7,7 @@
 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
     <div>
         <a href="{% url 'descargar_plantilla_indicadores' %}" class="btn-primary"
-           style="padding: 10px 20px; border-radius: 8px; background-color: #007bff; color: white; font-weight: bold;">
+           style="padding: 10px 20px; border-radius: 8px; background-color: #007bff; color: white; font-weight: bold; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
             <i class="fas fa-download"></i> Descargar Plantilla
         </a>
 
@@ -15,13 +15,13 @@
             {% csrf_token %}
             <input type="file" name="archivo_csv" accept=".csv" required style="margin-top: 10px;">
             <button type="submit" class="btn-primary"
-                    style="margin-top: 10px; padding: 10px 20px; border-radius: 8px; background-color: #28a745; color: white; font-weight: bold;">
+                    style="margin-top: 10px; padding: 10px 20px; border-radius: 8px; background-color: #28a745; color: white; font-weight: bold; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
                 <i class="fas fa-upload"></i> Subir Indicadores
             </button>
         </form>
 
         {% if mensaje %}
-        <div style="margin-top: 15px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px;">
+        <div style="margin-top: 15px; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 5px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
             {{ mensaje|safe }}
         </div>
         {% endif %}
@@ -40,7 +40,7 @@
     </div>
     <div>
         <label><strong>Tipo de gráfica:</strong></label>
-        <select id="filtroGrafica">
+        <select id="filtroGrafica" onchange="renderGraficas(this.value)">
             <option value="Todos">Todos</option>
             <option value="Barras">Barras</option>
             <option value="Pastel">Pastel</option>
@@ -49,21 +49,20 @@
     </div>
 </form>
 
-<div style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap;">
-    <div style="flex: 1; max-width: 600px; margin: auto;">
+<div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+    <div style="flex: 1; max-width: 65%;">
         <h2 style="margin-bottom: 20px; text-align: center;">Visualización Dinámica de Indicadores</h2>
-        <div id="contenedorGraficas"
-             style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; max-width: 600px; margin: auto;">
-            <canvas id="graficaBarras" width="100" height="80" style="border-radius: 12px;"></canvas>
-            <canvas id="graficaLinea" width="100" height="80" style="border-radius: 12px;"></canvas>
-            <canvas id="graficaPastel" width="100" height="100" style="border-radius: 12px;"></canvas>
+        <div id="contenedorGraficas" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+            <canvas id="graficaBarras" width="240" height="200"></canvas>
+            <canvas id="graficaLinea" width="240" height="200"></canvas>
+            <canvas id="graficaPastel" width="240" height="200"></canvas>
         </div>
         <p id="mensajeSinDatos" style="text-align: center; color: red; font-weight: bold; display: none; margin-top: 10px;">No hay datos disponibles para graficar</p>
     </div>
 
     <div style="flex: 1; margin-top: 40px;">
         <h3 style="text-align: center;">Detalle de Indicadores</h3>
-        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center; border-collapse: collapse;">
+        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; text-align: center; border-collapse: collapse; border-radius: 12px; overflow: hidden; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
             <thead style="background-color: #f0f0f0;">
                 <tr>
                     <th>Matrícula</th>
@@ -94,46 +93,43 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+const datos_matricula = JSON.parse(document.getElementById('datos_matricula').textContent);
+const datos_desercion = JSON.parse(document.getElementById('datos_desercion').textContent);
+const datos_reprobacion = JSON.parse(document.getElementById('datos_reprobacion').textContent);
+const datos_egresados = JSON.parse(document.getElementById('datos_egresados').textContent);
+const datos_ciclos_mostrar = JSON.parse(document.getElementById('datos_ciclos_mostrar').textContent);
+
 const charts = {};
-const datos = {
-    matricula: JSON.parse(document.getElementById('datos_matricula').textContent),
-    desercion: JSON.parse(document.getElementById('datos_desercion').textContent),
-    reprobacion: JSON.parse(document.getElementById('datos_reprobacion').textContent),
-    egresados: JSON.parse(document.getElementById('datos_egresados').textContent),
-    ciclos_mostrar: JSON.parse(document.getElementById('datos_ciclos_mostrar').textContent)
-};
 
 function renderGraficas(tipo = 'Todos') {
+    const labels = datos_ciclos_mostrar;
+    const dataMatricula = datos_matricula;
+    const dataDesercion = datos_desercion;
+    const dataReprobacion = datos_reprobacion;
+
     if (charts.barras) charts.barras.destroy();
     if (charts.linea) charts.linea.destroy();
     if (charts.pastel) charts.pastel.destroy();
 
-    if (datos.ciclos_mostrar.length === 0) {
+    if (labels.length === 0) {
         document.getElementById('mensajeSinDatos').style.display = 'block';
         return;
     } else {
         document.getElementById('mensajeSinDatos').style.display = 'none';
     }
 
-    const coloresPastel = ['#A7C7E7', '#B5EAD7', '#FFF7AE', '#FFB3BA', '#C7CEEA', '#D5F3F0'];
-
     if (tipo === 'Barras' || tipo === 'Todos') {
         charts.barras = new Chart(document.getElementById('graficaBarras'), {
             type: 'bar',
             data: {
-                labels: ['Matrícula', 'Deserción', 'Reprobación', 'Egresados'],
-                datasets: [{
-                    label: 'Indicadores',
-                    data: [
-                        datos.matricula.reduce((a, b) => a + b, 0),
-                        datos.desercion.reduce((a, b) => a + b, 0),
-                        datos.reprobacion.reduce((a, b) => a + b, 0),
-                        datos.egresados.reduce((a, b) => a + b, 0)
-                    ],
-                    backgroundColor: coloresPastel
-                }]
+                labels: labels,
+                datasets: [
+                    { label: 'Matrícula', data: dataMatricula, backgroundColor: '#A8D0E6' },
+                    { label: 'Deserción', data: dataDesercion, backgroundColor: '#FAE3D9' },
+                    { label: 'Reprobación', data: dataReprobacion, backgroundColor: '#B8F2E6' },
+                ]
             },
-            options: { responsive: true }
+            options: { responsive: true, animation: { duration: 1500 } }
         });
     }
 
@@ -141,16 +137,13 @@ function renderGraficas(tipo = 'Todos') {
         charts.linea = new Chart(document.getElementById('graficaLinea'), {
             type: 'line',
             data: {
-                labels: datos.ciclos_mostrar,
-                datasets: [{
-                    label: 'Deserción (%)',
-                    data: datos.desercion.map((d, i) => (d / (datos.matricula[i] || 1)) * 100),
-                    borderColor: '#A7C7E7',
-                    backgroundColor: '#D5F3F0',
-                    tension: 0.4
-                }]
+                labels: labels,
+                datasets: [
+                    { label: '% Deserción', data: dataDesercion, borderColor: '#F38181', fill: false },
+                    { label: '% Reprobación', data: dataReprobacion, borderColor: '#95E1D3', fill: false },
+                ]
             },
-            options: { responsive: true }
+            options: { responsive: true, animation: { duration: 1500 } }
         });
     }
 
@@ -158,26 +151,19 @@ function renderGraficas(tipo = 'Todos') {
         charts.pastel = new Chart(document.getElementById('graficaPastel'), {
             type: 'pie',
             data: {
-                labels: ['Matrícula', 'Deserción', 'Reprobación', 'Egresados'],
+                labels: ['Matrícula', 'Deserción', 'Reprobación'],
                 datasets: [{
-                    data: [
-                        datos.matricula.reduce((a, b) => a + b, 0),
-                        datos.desercion.reduce((a, b) => a + b, 0),
-                        datos.reprobacion.reduce((a, b) => a + b, 0),
-                        datos.egresados.reduce((a, b) => a + b, 0)
-                    ],
-                    backgroundColor: coloresPastel
+                    data: [dataMatricula.reduce((a,b)=>a+b,0), dataDesercion.reduce((a,b)=>a+b,0), dataReprobacion.reduce((a,b)=>a+b,0)],
+                    backgroundColor: ['#FFB6B9', '#FAE3D9', '#B5EAD7']
                 }]
             },
-            options: { responsive: true }
+            options: { responsive: true, animation: { duration: 1500 } }
         });
     }
 }
 
-document.getElementById('filtroGrafica').addEventListener('change', (e) => {
-    renderGraficas(e.target.value);
+document.addEventListener('DOMContentLoaded', function() {
+    renderGraficas('Todos');
 });
-
-renderGraficas();
 </script>
 {% endblock %}
