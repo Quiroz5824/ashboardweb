@@ -12,7 +12,7 @@ from api.Administrador.csv_views import (
 )
 from api.Administrador import matriculagenero_views
 
-# 👇 NUEVO: Importamos las vistas de matrícula por cuatrimestre
+# 👇 NUEVO: Importamos las vistas de matrícula por cuatrimestre.
 from api.Administrador.matricula_cuatrimestre_views import (
     importar_matricula_cuatrimestres,
     matricula_por_cuatrimestre_view,

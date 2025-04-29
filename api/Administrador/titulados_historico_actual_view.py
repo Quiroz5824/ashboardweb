@@ -1,4 +1,4 @@
-#prueba api/Administrador/titulados_historico_actual_view.py
+#api/Administrador/titulados_historico_actual_view.py
 
 import pandas as pd
 import io
