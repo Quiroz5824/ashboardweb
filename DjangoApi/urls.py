@@ -30,10 +30,15 @@ from api.Administrador.administrador_views import (
 # Vistas específicas
 from api.views import egresados_view
 from api.Administrador.examen_views import examen_admision_view
+<<<<<<< HEAD
 
 
 from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
 
+=======
+
+from api.Administrador.examen_views import examen_admision_view  # ✅ Importación correcta
+>>>>>>> 4877d479896424e9478b6be62195ef4ecdc99c3a
 from api.Administrador.csv_views import (
     descargar_plantilla_nuevo_ingreso,
     subir_csv_nuevo_ingreso
@@ -49,6 +54,10 @@ from api.Administrador.matricula_cuatrimestre_views import (
 )
 from api.Administrador.eficiencia3anios_views import eficiencia_3anios_view
 
+<<<<<<< HEAD
+=======
+# === URLs ===
+>>>>>>> 4877d479896424e9478b6be62195ef4ecdc99c3a
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -106,7 +115,10 @@ urlpatterns = [
 
     # Eficiencia Terminal a 3 años
     path('administrador/eficiencia-3anios/', eficiencia_3anios_view, name='eficiencia_3anios'),
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4877d479896424e9478b6be62195ef4ecdc99c3a
     
     # ✅ NUEVA RUTA: Aprovechamiento Académico
 
@@ -119,12 +131,15 @@ urlpatterns = [
     path('administrador/descargar-plantilla-indicadores/', descargar_plantilla_indicadores, name='descargar_plantilla_indicadores'),
     path('administrador/subir-csv-indicadores/', subir_csv_indicadores, name='subir_csv_indicadores'),
 
+<<<<<<< HEAD
     # ✅ Eficiencia Terminal
     path("administrador/eficiencia-terminal/", eficiencia_terminal_view, name="eficiencia_terminal"),
     path("administrador/descargar-plantilla-eficiencia-terminal/", descargar_plantilla_eficiencia_terminal, name="descargar_plantilla_eficiencia_terminal"),
     path("administrador/subir-csv-eficiencia-terminal/", subir_csv_eficiencia_terminal, name="subir_csv_eficiencia_terminal"),
 
 
+=======
+>>>>>>> 4877d479896424e9478b6be62195ef4ecdc99c3a
 ]
 
 # Archivos estáticos en modo debug
